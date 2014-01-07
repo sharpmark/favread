@@ -1,0 +1,79 @@
+div { display:block; }
+body { font-size: 14px; }
+a { color: #0078b6; }
+li { list-style: none; }
+
+#feed_list
+{
+    max-width: 500px;
+}
+
+.feed
+{
+    margin: 0 20px 0;
+    padding: 20px 0 0;
+}
+
+.feed_detail
+{
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    padding: 0 0 11px;
+    border-color: #e6e6e6;
+}
+
+.avatar
+{
+    float: left;
+    width: 50px;
+    position: relative;
+}
+
+.name
+{
+    font-weight: bold;
+    line-height: 16px;
+}
+
+.detail
+{
+    margin-left: 65px;
+}
+
+.text
+{
+    font-size: 14px;
+    line-height: 23px;
+    padding: 4px 0 4px;
+}
+
+.retweeted
+{
+    border-width: 1px;
+    border-style: solid;
+    border-color: #d7eefb;
+    background-color: #f2f2f2;
+    padding: 10px 20px 10px;
+    margin: 5px 0 15px;
+    border-radius: 3px;
+    color: #888;
+}
+.handle, .operate
+{
+    float: right;
+}
+.media_list {
+    margin-right: -20px;
+    padding: 0 0 15px;
+}
+.media_list li {
+    display: inline;
+    margin: 0 9px 0 0;
+    vertical-align: top;
+}
+.pic_min {
+    display: inline-block;
+    vertical-align: top;
+    min-width: 36px;
+    text-align: center;
+}
