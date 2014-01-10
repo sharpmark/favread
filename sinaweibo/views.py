@@ -2,6 +2,7 @@
 
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
+#from django.core.paginator import Paginator
 import hashlib, base64, time
 from datetime import datetime
 import json
@@ -10,29 +11,22 @@ from weibo import APIClient
 from sinaweibo.config import *
 from sinaweibo.models import User, Status, Favorite
 from sinaweibo.crawler import *
+from sinaweibo.tools import *
 
-def test_get(request):
-    u = _check_cookie(request)
-    client = _create_client()
-    if u is None:
-        return HttpResponseRedirect(client.get_authorize_url())
-    client.set_access_token(u.auth_token, u.expired_time)
-
-    crawler(client, u)
-
+def test(request):
     return HttpResponseRedirect('/')
 
 def index(request):
+    if _check_cookie(request) is None:
+        return HttpResponseRedirect('/welcome/')
+    else:
+        return HttpResponseRedirect('/page/1/')
 
-    u = _check_cookie(request)
-    client = _create_client()
-    if u is None:
-        return HttpResponseRedirect(client.get_authorize_url())
-    client.set_access_token(u.auth_token, u.expired_time)
+def welcome(request):
+    return render(request, 'welcome.html')
 
-    favlist = u.get_statuses(page=1, count=50)
-
-    return render(request, '/home/jiong/favread/sinaweibo/templates/index.html', { 'favlist': favlist, 'page_count': range(1, u.statuses.count() / 50 + 2) })
+def login(request):
+    return HttpResponseRedirect(_create_client().get_authorize_url())
 
 def list(request, page_id):
     u = _check_cookie(request)
@@ -41,13 +35,15 @@ def list(request, page_id):
         return HttpResponseRedirect(client.get_authorize_url())
     client.set_access_token(u.auth_token, u.expired_time)
 
-    favlist = u.get_statuses(page=int(page_id), count=50)
+    favlist = u.get_statuses(page=int(page_id), count=10)
 
-    return render(request, '/home/jiong/favread/sinaweibo/templates/list.html', { 'favlist': favlist, 'page_count': range(1, u.statuses.count() / 50 + 2 ) })
+    return render(request, 'list.html', {
+        'favlist': favlist, \
+        'pages': get_page_list(u.statuses.count(), 10, int(page_id)), \
+        'current_page': int(page_id), \
+        'my': u, },)
 
 def callback(request):
-
-    print 'request callback'
 
     code = request.GET['code']
     client = _create_client()
@@ -76,10 +72,6 @@ def callback(request):
             #create_time=datetime.today(),
             )
 
-    # hard code
-    if user.id == 1642723410:
-        if user.last_sync is None or user.last_sync < datetime(2013, 12, 30, 0, 0, 0):
-            user.last_sync = datetime.datetime(2013, 12,30,1,1,1)
     user.save()
 
     crawler_user(client, user)
@@ -93,7 +85,8 @@ _COOKIE = 'authuser'
 _SALT = 'A rAnDoM sTrInG'
 
 def _create_client():
-    return APIClient(app_key=APP_KEY, app_secret=APP_SECRET, redirect_uri=CALLBACK_URL)
+    return APIClient(app_key=APP_KEY, \
+        app_secret=APP_SECRET, redirect_uri=CALLBACK_URL)
 
 def _make_cookie(uid, token, expires_in, response):
 
@@ -101,7 +94,8 @@ def _make_cookie(uid, token, expires_in, response):
     s = '%s:%s:%s:%s' % (str(uid), str(token), expires, _SALT)
     md5 = hashlib.md5(s).hexdigest()
     cookie = '%s:%s:%s' % (str(uid), expires, md5)
-    response.set_cookie(_COOKIE, base64.b64encode(cookie).replace('=', '_'), expires=expires_in)
+    response.set_cookie(_COOKIE, \
+        base64.b64encode(cookie).replace('=', '_'), expires=expires_in)
 
 def _check_cookie(request):
 

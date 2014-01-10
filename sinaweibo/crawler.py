@@ -10,33 +10,29 @@ def crawler_sinaweibo_task():
     client = APIClient(app_key=APP_KEY, app_secret=APP_SECRET, redirect_uri=CALLBACK_URL)
     users = User.objects.all()
     for user in users:
-	if user.id == 1642723410 and user.last_sync < datetime(2013,10,21,1,1,1):
-            user.last_sync = datetime(2013,12,25,1,1,1)
-            user.save()
         try:
-            print '============='
-            print u'crawler user: %d with last sync data: %s' % (user.id, str(user.last_sync))
+            print u'crawler: [%d]%s last sync: %s' % (
+                user.id, user.name[:2], str(user.last_sync)[5:19]),
             client.set_access_token(user.auth_token, user.expired_time)
-            crawler_user(client, user, 20)
-            print 'crawler done. update user\'s last sync'
+            print 'update statuses: %d.' % crawler_user(client, user, 20)
         except Exception, e:
             print e
 
 def crawler_user(client, user, count=50):
-    crawler_favorites(client, user, count)
+    cawler_count = crawler_favorites(client, user, count)
     user.last_sync = datetime.today()
     user.save()
+    return cawler_count
 
 def crawler_favorites(client, user, count=50):
-
-    print 'start crawler statuses ...'
 
     compare_date = user.last_sync
 
     favlist = client.favorites.ids.get(uid=user.id)
     total_number = favlist['total_number']
+    cawler_count = 0
 
-    if total_number == 0: return
+    if total_number == 0: return cawler_count
 
     total_page = favlist['total_number'] / count + 2
 
@@ -45,12 +41,14 @@ def crawler_favorites(client, user, count=50):
         page_first_time = strtodatetime(statuses['favorites'][0]['favorited_time'])
 
         if page_first_time < compare_date:
-            return
+            return cawler_count
 
         for status in statuses['favorites']:
             if compare_date > strtodatetime(status['favorited_time']):
-                return
+                return cawler_count
 
             #print 'saving status: %d' % status['status']['id']
+            cawler_count = cawler_count + 1
             user.save_status(status)
 
+    return cawler_count

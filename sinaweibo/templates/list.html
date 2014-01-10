@@ -1,9 +1,14 @@
 <html>
 <head>
-<link type="text/css" rel="stylesheet" charset="utf-8" href="http://sharpmark.net/static/style.css" />
+<link type="text/css" rel="stylesheet" charset="utf-8" href="/static/style.css" />
 </head>
 <body>
-<div id="feed_list">
+<nav class="fix_width">
+    <div id="mylink">
+        <span>{{ my.name }}</span>
+    </div>
+</nav>
+<div id="feed_list" class="fix_width">
 {% load status_extras %}
 {% for status in favlist.favorites %}
     {% with user=status.user %}
@@ -57,12 +62,15 @@
 {% endwith %}</div>
 {% endfor %}
 </div>
-<div class="pageinator">
-    <span class="prev">前页</span>
-    {% for p in page_count %}
-    <a href="/page/{{p}}">{{p}}</a>
+<div class="pagination fix_width">
+    {% for p in pages %}
+        {% if current_page == p %}
+        <span class="current">{{ p }}</span>
+        {% else %}
+        <a href="/page/{{ p }}/">{{ p }}</a>
+        {% endif %}
     {% endfor %}
-    <span class="next">下页</span>
+    </span></div>
 </div>
 </body>
 </html>
