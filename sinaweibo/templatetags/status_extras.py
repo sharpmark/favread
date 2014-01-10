@@ -16,9 +16,9 @@ def timefmt(value):
 
     if status_time.year == date.today().year:
         if status_time.month == date.today().month and status_time.day == date.today().day:
-            return status_time.strftime('今天 %H:%M')
-        return status_time.strftime('%m 月 %d 日')
-    return status_time.strftime('%Y 年 %m 月 %d 日')
+            return status_time.strftime('今天%H:%M')
+        return status_time.strftime('%m月%d日')
+    return status_time.strftime('%Y年%m月%d日')
 
 
 def add_link(v):
@@ -28,7 +28,7 @@ def add_at(v):
     return '<a href="http://weibo.com/n/' + v.group()[1:] + '" target="_blank">' + v.group() + '</a>'
 
 def add_topic(v):
-    return '<a href="http://huati.weibo.com/k/' + v.group() + '" target="_blank">' + v.group() + '</a>'
+    return '<a href="http://huati.weibo.com/k/' + v.group()[1:-1] + '" target="_blank">' + v.group() + '</a>'
 
 @register.filter
 def statusfmt(value):

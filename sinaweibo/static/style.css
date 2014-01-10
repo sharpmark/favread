@@ -4,7 +4,18 @@ body {
     font-size: 14px;
     background: #252525;
 }
-a { color: #0078b6; }
+a
+{ 
+    color: #0078b6; 
+    text-decoration: none;
+}
+a:visited {
+    text-decoration: none;
+}
+a:hover, a:active
+{
+    text-decoration: underline;
+}
 li { list-style: none; }
 
 .fix_width
@@ -85,7 +96,7 @@ body>nav
     color: #888;
 }
 
-.handle, .operate,
+.handle, .operate
 {
     float: right;
 }
@@ -123,4 +134,10 @@ body>nav
 .step-links {
     padding: 10px;
     text-align: center;
+}
+
+.welcome {
+     text-align: center;
+     background-color: #f2f2f2;
+     height: 100%;
 }

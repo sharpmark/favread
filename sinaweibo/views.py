@@ -28,6 +28,11 @@ def welcome(request):
 def login(request):
     return HttpResponseRedirect(_create_client().get_authorize_url())
 
+def logout(request):
+    response = HttpResponseRedirect('/welcome/')
+    response.delete_cookie(COOKIE_USER)
+    return response
+
 def list(request, page_id):
     u = _check_cookie(request)
     client = _create_client()
@@ -45,9 +50,8 @@ def list(request, page_id):
 
 def callback(request):
 
-    code = request.GET['code']
     client = _create_client()
-    r = client.request_access_token(code)
+    r = client.request_access_token(request.GET['code'])
     access_token, expires_in, uid = r.access_token, r.expires_in, r.uid
 
     client.set_access_token(access_token, expires_in)
@@ -56,8 +60,8 @@ def callback(request):
 
     try:
         user = User.objects.get(id=uid)
-        user.auth_token=access.token
-        user.expired_time=expires_in
+        user.auth_token = access.token
+        user.expired_time = expires_in
     except BaseException:
         user = User(id=uid, name=u.screen_name, \
             image_url=u.avatar_large or u.profile_image_url, \
@@ -81,8 +85,6 @@ def callback(request):
     _make_cookie(uid, access_token, expires_in, response)
     return response
 
-_COOKIE = 'authuser'
-_SALT = 'A rAnDoM sTrInG'
 
 def _create_client():
     return APIClient(app_key=APP_KEY, \
@@ -91,16 +93,16 @@ def _create_client():
 def _make_cookie(uid, token, expires_in, response):
 
     expires = str(int(expires_in))
-    s = '%s:%s:%s:%s' % (str(uid), str(token), expires, _SALT)
+    s = '%s:%s:%s:%s' % (str(uid), str(token), expires, SALT)
     md5 = hashlib.md5(s).hexdigest()
     cookie = '%s:%s:%s' % (str(uid), expires, md5)
-    response.set_cookie(_COOKIE, \
+    response.set_cookie(COOKIE_USER, \
         base64.b64encode(cookie).replace('=', '_'), expires=expires_in)
 
 def _check_cookie(request):
 
     try:
-        b64cookie = request.COOKIES[_COOKIE]
+        b64cookie = request.COOKIES[COOKIE_USER]
         cookie = base64.b64decode(b64cookie.replace('_', '='))
         uid, expires, md5 = cookie.split(':', 2)
 
@@ -108,8 +110,7 @@ def _check_cookie(request):
             return
 
         user = User.objects.get(id=uid)
-
-        s = '%s:%s:%s:%s' % (uid, str(user.auth_token), expires, _SALT)
+        s = '%s:%s:%s:%s' % (uid, str(user.auth_token), expires, SALT)
         if md5 != hashlib.md5(s).hexdigest():
             return
 

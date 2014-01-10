@@ -11,8 +11,8 @@ def crawler_sinaweibo_task():
     users = User.objects.all()
     for user in users:
         try:
-            print u'crawler: [%d]%s last sync: %s' % (
-                user.id, user.name[:2], str(user.last_sync)[5:19]),
+            print u'crawler: [%d] last sync: %s' % (
+                user.id, str(user.last_sync)[5:19]),
             client.set_access_token(user.auth_token, user.expired_time)
             print 'update statuses: %d.' % crawler_user(client, user, 20)
         except Exception, e:

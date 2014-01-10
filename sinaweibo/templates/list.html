@@ -5,7 +5,7 @@
 <body>
 <nav class="fix_width">
     <div id="mylink">
-        <span>{{ my.name }}</span>
+        <span>{{ my.name }} | <a href="/logout/">退出</a></span>
     </div>
 </nav>
 <div id="feed_list" class="fix_width">
@@ -49,28 +49,27 @@
                 <div class="expand" style="display: none;"></div>
                 <div class="func">
                     <div class="handle">赞({{ rtstatus.attitudes_count }})| 转发({{ rtstatus.reposts_count }}) | 评论({{ rtstatus.comments_count }})</div>
-                    <div class="from"><a class="time" target="_blank" href="{{ status.url }}">{{ rtstatus.created_at|timefmt }}</a></div>
+                    <div class="from">{{ rtstatus.created_at|timefmt }}</div>
                 </div>
             </div>
             {% endwith %}{% endif %}
             <div class="func">
                 <div class="handle">赞({{ status.attitudes_count }})| 转发({{ status.reposts_count }}) | 评论({{ status.comments_count }})</div>
-                <div class="from"><a class="time" target="_blank" href="{{ status.url }}">{{ status.created_at|timefmt }}</a></div>
+                <div class="from">{{ status.created_at|timefmt }}</div>
             </div>
         </div>
     </div>
 {% endwith %}</div>
 {% endfor %}
 </div>
-<div class="pagination fix_width">
+<div class="pagination fix_width"><div class="step-links">
     {% for p in pages %}
         {% if current_page == p %}
         <span class="current">{{ p }}</span>
         {% else %}
         <a href="/page/{{ p }}/">{{ p }}</a>
         {% endif %}
-    {% endfor %}
-    </span></div>
+    {% endfor %}</div>
 </div>
 </body>
 </html>
