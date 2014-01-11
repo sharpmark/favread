@@ -10,19 +10,20 @@ def crawler_sinaweibo_task():
     client = APIClient(app_key=APP_KEY, app_secret=APP_SECRET, redirect_uri=CALLBACK_URL)
     users = User.objects.all()
     for user in users:
-        try:
-            print u'crawler: [%d] last sync: %s' % (
-                user.id, str(user.last_sync)[5:19]),
-            client.set_access_token(user.auth_token, user.expired_time)
-            print 'update statuses: %d.' % crawler_user(client, user, 20)
-        except Exception, e:
-            print e
+        print u'crawler: [%d] last sync: %s' % (
+            user.id, str(user.last_sync)[5:19]),
+        client.set_access_token(user.auth_token, user.expired_time)
+        print 'update statuses: %d.' % crawler_user(client, user, 20)
 
 def crawler_user(client, user, count=50):
-    cawler_count = crawler_favorites(client, user, count)
-    user.last_sync = datetime.today()
-    user.save()
-    return cawler_count
+    try:
+        cawler_count = crawler_favorites(client, user, count)
+        user.last_sync = datetime.today()
+        user.save()
+        return cawler_count
+    except Exception, e:
+        print e
+        return -1
 
 def crawler_favorites(client, user, count=50):
 
@@ -34,7 +35,10 @@ def crawler_favorites(client, user, count=50):
 
     if total_number == 0: return cawler_count
 
-    total_page = favlist['total_number'] / count + 2
+    if favlist['total_number'] / count == 0:
+        total_page = favlist['total_number'] / count + 1
+    else:
+        total_page = favlist['total_number'] / count + 2
 
     for i in range(1, total_page):
         statuses = client.favorites.get(uid=user.id, page=i, count=count)
