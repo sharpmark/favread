@@ -69,6 +69,7 @@ body>nav
 .name
 {
     font-weight: bold;
+    font-size: 18px;
     line-height: 16px;
 }
 
@@ -93,7 +94,12 @@ body>nav
     padding: 10px 20px 10px;
     margin: 5px 0 15px;
     border-radius: 3px;
-    color: #888;
+    color: #444;
+}
+
+.func
+{
+    color: #aaa;
 }
 
 .handle, .operate
@@ -102,8 +108,8 @@ body>nav
 }
 
 .media_list {
-    margin-right: -20px;
-    padding: 0 0 15px;
+    margin-right: 10px -20px;
+    padding: 0 0 0 10px;
 }
 
 .media_list li {
@@ -112,11 +118,19 @@ body>nav
     vertical-align: top;
 }
 
+.name { color: #444; }
+
+.time { color: #aaa; }
+
 .pic_min {
     display: inline-block;
     vertical-align: top;
-    min-width: 36px;
     text-align: center;
+}
+
+.pic_min img {
+    width: 50px;
+    height: 50px;
 }
 
 .pagination {
@@ -134,6 +148,10 @@ body>nav
 .step-links {
     padding: 10px;
     text-align: center;
+}
+
+#logo-120 {
+    margin: 20px;
 }
 
 .welcome {
