@@ -3,6 +3,9 @@ div { display:block; }
 body {
     font-size: 14px;
     background: #252525;
+    color: #3f484f;
+    font-family: "Open Sans",Arial,"Hiragino Sans GB","Microsoft YaHei","微软雅黑","STHeiti","WenQuanYi Micro Hei",SimSun,sans-serif;
+    -webkit-font-smoothing:antialiased;
 }
 a
 { 
@@ -20,10 +23,10 @@ li { list-style: none; }
 
 .fix_width
 {
-    max-width: 660px;
+    max-width: 40%;
     margin: 0 auto;
 }
-body>nav
+nav
 {
     background: linear-gradient(#e0e0e0, #cccccc, #b0b0b0);
     font-size: 18px;
@@ -40,11 +43,31 @@ body>nav
     text-align: right;
 }
 
+#left
+{
+    float: left;
+}
+
 #feed_list
 {
     background: #f8f8f8;
 }
-
+#right
+{
+    width: 57%;
+    float: left;
+    height: 100%;
+    background: #fff;
+    position: fixed;
+    right: 20px;
+    overflow: hidden;
+}
+#extra
+{
+    margin: 20px;
+    padding: 20px;
+    background: #eee;
+}
 .feed
 {
     margin: 0 20px 0;
@@ -57,6 +80,7 @@ body>nav
     border-bottom-style: solid;
     padding: 0 0 11px;
     border-color: #e6e6e6;
+    word-break: break-all;
 }
 
 .avatar

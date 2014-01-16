@@ -1,19 +1,24 @@
 <html>
 <head>
-    <link type="text/css" rel="stylesheet" charset="utf-8" href="/static/style.css" />
+    <link type="text/css" rel="stylesheet" charset="utf-8" href="/static/styles/main.css" />
+    <script type="text/javascript" src="/static/js/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="/static/js/jquery.mousewheel.js"></script>
+    <script type="text/javascript" src="/static/js/list.js"></script>
     <title>我的收藏 - FavRead</title>
 </head>
 <body>
-<nav class="fix_width">
+
+<div id="left" class="fix_width">
+<nav>
     <div id="mylink">
         <span>{{ my.name }} | <a href="/logout/">退出</a></span>
     </div>
 </nav>
-<div id="feed_list" class="fix_width">
+<div id="feed_list">
 {% load status_extras %}
 {% for status in favlist.favorites %}
     {% with user=status.user %}
-    <div class="feed"><div class="feed_detail">
+    <div class="feed" id="{{ status.mid }}"><div class="feed_detail">
         <div class="avatar">
             <a class="avatar_radius" href="http://weibo.com/{{ user.profile_url }}"><img title="{{ user.name }}" width="50" height="50" src="{{ user.avatar_large }}" /></a>
         </div>
@@ -63,7 +68,7 @@
 {% endwith %}</div>
 {% endfor %}
 </div>
-<div class="pagination fix_width"><div class="step-links">
+<div class="pagination"><div class="step-links">
     {% for p in pages %}
         {% if current_page == p %}
         <span class="current">{{ p }}</span>
@@ -71,7 +76,9 @@
         <a href="/page/{{ p }}/">{{ p }}</a>
         {% endif %}
     {% endfor %}</div>
-</div>
+</div></div>
+<div id="right"><div id="extra">
+    <h2>content</h2>
+</div></div>
 </body>
 </html>
-

@@ -78,7 +78,7 @@ def callback(request):
 
     user.save()
 
-    crawler_user(client, user)
+    #crawler_user(client, user)
 
     response = HttpResponseRedirect('/')
 
