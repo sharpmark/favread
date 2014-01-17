@@ -46,27 +46,26 @@ nav
 #left
 {
     float: left;
+    height: 100%;
+    overflow: hidden;
+    position: absolute;
 }
 
 #feed_list
 {
     background: #f8f8f8;
 }
-#right
-{
-    width: 57%;
-    float: left;
-    height: 100%;
-    background: #fff;
-    position: fixed;
-    right: 20px;
-    overflow: hidden;
-}
+
 #extra
 {
     margin: 20px;
+    height: 100%;
     padding: 20px;
+    left: 40%;
+    width: 55%;
     background: #eee;
+    overflow: hidden;
+    position: absolute;
 }
 .feed
 {

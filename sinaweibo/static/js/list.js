@@ -10,17 +10,15 @@ $(document).ready(function() {
             if (! $("#extra").is(":visible")) {
                 $("#extra").show();
             }
-            $("#extra").html(nowid);
+            // $("#extra").html(nowid);
             selectedid = nowid;
         }
     });
 });
 
 $(function () {
-    $('#right').bind('mousewheel', function(event) {
-        event.preventDefault();
-        var scrollTop = this.scrollTop;
-        this.scrollTop = (scrollTop + ((event.deltaY * event.deltaFactor) * -1));
-        console.log(event.deltaY);
-    });
-});
+    $('#extra').perfectScrollbar();
+    $('#left').perfectScrollbar();
+})
+
+
