@@ -9,6 +9,7 @@ from sinaweibo.tools import *
 class Status(models.Model):
     id = models.BigIntegerField(primary_key=True)
     content = models.CharField(max_length=5000)
+    #extra = models.TextField()
 
 class User(models.Model):
     name = models.CharField(max_length=50)

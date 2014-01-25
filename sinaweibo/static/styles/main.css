@@ -3,6 +3,10 @@ div { display:block; }
 body {
     font-size: 14px;
     background: #252525;
+    color: #3f484f;
+    font-family: "Open Sans",Arial,"Hiragino Sans GB","Microsoft YaHei","微软雅黑","STHeiti","WenQuanYi Micro Hei",SimSun,sans-serif;
+    -webkit-font-smoothing:antialiased;
+    margin: 0;
 }
 a
 { 
@@ -18,12 +22,14 @@ a:hover, a:active
 }
 li { list-style: none; }
 
+#wrap { padding: 10px; }
+
 .fix_width
 {
-    max-width: 660px;
+    max-width: 40%;
     margin: 0 auto;
 }
-body>nav
+nav
 {
     background: linear-gradient(#e0e0e0, #cccccc, #b0b0b0);
     font-size: 18px;
@@ -40,11 +46,28 @@ body>nav
     text-align: right;
 }
 
+#left
+{
+    float: left;
+    height: 100%;
+    overflow: hidden;
+    position: absolute;
+}
+
 #feed_list
 {
     background: #f8f8f8;
 }
 
+#extra
+{
+    left: 42%;
+    width: 55%;
+    max-height: 100%;
+    overflow: hidden;
+    position: absolute;
+    display: block;
+}
 .feed
 {
     margin: 0 20px 0;
@@ -83,6 +106,7 @@ body>nav
     font-size: 18px;
     line-height: 30px;
     padding: 4px 0 4px;
+    word-break: break-all;
 }
 
 .retweeted
@@ -158,4 +182,51 @@ body>nav
      text-align: center;
      background-color: #f2f2f2;
      height: 100%;
+}
+
+#status_wrap
+{
+    padding: 10px;
+}
+#status_header_cover
+{
+    position: relative;
+    min-height: 35px;
+}
+
+#status_header_content
+{
+    position: relative;
+    padding: 10px 0;
+    background: #eee;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    border-color: #e6e6e6;
+}
+
+#status_header_logo
+{
+    position: absolute;
+    padding-left: 20px;
+    bottom: 10px;
+}
+#status_header_logo img {
+    width: 90px;
+    height: 90px;
+}
+.pic_large img {
+    margin: 0 auto;
+    max-width: 600px;
+    display: block;
+}
+#status_header_info { margin-left: 140px; }
+
+#status_username h2 {
+    font-weight: bold;
+    margin: 0;
+}
+#status_moreinfo p { margin: 0; }
+.status_detail {
+    padding: 20px;
+    background: #eee;
 }
