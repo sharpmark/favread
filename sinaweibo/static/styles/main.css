@@ -6,6 +6,7 @@ body {
     color: #3f484f;
     font-family: "Open Sans",Arial,"Hiragino Sans GB","Microsoft YaHei","微软雅黑","STHeiti","WenQuanYi Micro Hei",SimSun,sans-serif;
     -webkit-font-smoothing:antialiased;
+    margin: 0;
 }
 a
 { 
@@ -20,6 +21,8 @@ a:hover, a:active
     text-decoration: underline;
 }
 li { list-style: none; }
+
+#wrap { padding: 10px; }
 
 .fix_width
 {
@@ -58,14 +61,12 @@ nav
 
 #extra
 {
-    margin: 20px;
-    padding: 20px;
-    left: 40%;
+    left: 42%;
     width: 55%;
-    background: #eee;
+    max-height: 100%;
     overflow: hidden;
     position: absolute;
-    display: none;
+    display: block;
 }
 .feed
 {
@@ -185,7 +186,7 @@ nav
 
 #status_wrap
 {
-    padding-left: 20px;
+    padding: 10px;
 }
 #status_header_cover
 {
@@ -197,19 +198,28 @@ nav
 {
     position: relative;
     padding: 10px 0;
+    background: #eee;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    border-color: #e6e6e6;
 }
 
 #status_header_logo
 {
     position: absolute;
+    padding-left: 20px;
     bottom: 10px;
 }
 #status_header_logo img {
     width: 90px;
     height: 90px;
 }
-
-#status_header_info { margin-left: 120px; }
+.pic_large img {
+    margin: 0 auto;
+    max-width: 600px;
+    display: block;
+}
+#status_header_info { margin-left: 140px; }
 
 #status_username h2 {
     font-weight: bold;
@@ -217,5 +227,6 @@ nav
 }
 #status_moreinfo p { margin: 0; }
 .status_detail {
-    margin-top: 20px;
+    padding: 20px;
+    background: #eee;
 }

@@ -45,8 +45,12 @@ def statusfmt(value):
     return value
 
 @register.filter
-def imagefmt(value):
+def imagesquare(value):
     return value.replace('thumbnail', 'square')
+
+@register.filter
+def imagelarge(value):
+    return value.replace('thumbnail', 'large')
 
 ALPHABET = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
  

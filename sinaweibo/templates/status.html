@@ -1,6 +1,6 @@
 {% load status_extras %}
 {% with user=status.user %}
-<div id="status">
+<div id="status_wrap">
     <div id="status_header">
         <div id="status_header_cover"></div>
         <div id="status_header_wrap"><div id="status_header_content">
@@ -21,8 +21,8 @@
         {% if status.pic_urls %}
         <ul class="media_list bigcursor">
             {% for pic in status.pic_urls %}
-            <li><div class="pic_min">
-                <img class="bigcursor" src="{{ pic.thumbnail_pic|imagefmt }}" />
+            <li><div class="pic_large">
+                <a href="{{ pic.thumbnail_pic|imagelarge }}" target="_blank"><img class="bigcursor" src="{{ pic.thumbnail_pic|imagelarge }}" /></a>
             </div></li>
             {% endfor %}
         </ul>
@@ -35,9 +35,9 @@
             </div>
             {% if rtstatus.pic_urls %}
             <ul class="media_list bigcursor">
-                {% for pic in rtstatus.pic_urls %}
-                <li><div class="pic_min">
-                    <img class="bigcursor" src="{{ pic.thumbnail_pic|imagefmt }}" />
+                {% for rpic in rtstatus.pic_urls %}
+                <li><div class="pic_large">
+                    <a href="{{ rpic.thumbnail_pic|imagelarge }}" target="_blank"><img class="bigcursor" src="{{ rpic.thumbnail_pic|imagelarge }}" /></a>
                 </div></li>
                 {% endfor %}
             </ul>

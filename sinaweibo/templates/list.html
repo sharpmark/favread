@@ -8,13 +8,12 @@
     <title>我的收藏 - FavRead</title>
 </head>
 <body>
-
-<div id="left" class="fix_width">
-<nav>
+<!-- nav>
     <div id="mylink">
         <span>{{ my.name }} | <a href="/logout/">退出</a></span>
     </div>
-</nav>
+</nav -->
+<div id="left" class="fix_width">
 <div id="feed_list">
 {% load status_extras %}
 {% for status in favlist.favorites %}
@@ -33,7 +32,7 @@
             <ul class="media_list bigcursor">
                 {% for pic in status.pic_urls %}
                 <li><div class="pic_min">
-                    <img class="bigcursor" src="{{ pic.thumbnail_pic|imagefmt }}" />
+                    <img class="bigcursor" src="{{ pic.thumbnail_pic|imagesquare }}" />
                 </div></li>
                 {% endfor %}
             </ul>
@@ -48,7 +47,7 @@
                 <ul class="media_list bigcursor">
                     {% for pic in rtstatus.pic_urls %}
                     <li><div class="pic_min">
-                        <img class="bigcursor" src="{{ pic.thumbnail_pic|imagefmt }}" />
+                        <img class="bigcursor" src="{{ pic.thumbnail_pic|imagesquare }}" />
                     </div></li>
                     {% endfor %}
                 </ul>
