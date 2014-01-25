@@ -59,13 +59,13 @@ nav
 #extra
 {
     margin: 20px;
-    height: 100%;
     padding: 20px;
     left: 40%;
     width: 55%;
     background: #eee;
     overflow: hidden;
     position: absolute;
+    display: none;
 }
 .feed
 {
@@ -79,7 +79,6 @@ nav
     border-bottom-style: solid;
     padding: 0 0 11px;
     border-color: #e6e6e6;
-    word-break: break-all;
 }
 
 .avatar
@@ -106,6 +105,7 @@ nav
     font-size: 18px;
     line-height: 30px;
     padding: 4px 0 4px;
+    word-break: break-all;
 }
 
 .retweeted
@@ -181,4 +181,41 @@ nav
      text-align: center;
      background-color: #f2f2f2;
      height: 100%;
+}
+
+#status_wrap
+{
+    padding-left: 20px;
+}
+#status_header_cover
+{
+    position: relative;
+    min-height: 35px;
+}
+
+#status_header_content
+{
+    position: relative;
+    padding: 10px 0;
+}
+
+#status_header_logo
+{
+    position: absolute;
+    bottom: 10px;
+}
+#status_header_logo img {
+    width: 90px;
+    height: 90px;
+}
+
+#status_header_info { margin-left: 120px; }
+
+#status_username h2 {
+    font-weight: bold;
+    margin: 0;
+}
+#status_moreinfo p { margin: 0; }
+.status_detail {
+    margin-top: 20px;
 }

@@ -10,9 +10,15 @@ $(document).ready(function() {
             if (! $("#extra").is(":visible")) {
                 $("#extra").show();
             }
-            // $("#extra").html(nowid);
+
+            $("#extra").html($.ajax({url:"/status/"+nowid+"/", async:false}).responseText);
+
             selectedid = nowid;
         }
+    });
+    $(window).resize(function() {
+        $("#extra").perfectScrollbar('update');
+        $("#left").perfectScrollbar('update');
     });
 });
 

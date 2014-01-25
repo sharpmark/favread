@@ -48,6 +48,12 @@ def list(request, page_id):
         'current_page': int(page_id), \
         'my': u, },)
 
+def status(request, status_id):
+    status = Status.objects.get(id=status_id)
+    return render(request, 'status.html', {
+        'status': json.loads(status.content),
+        }, )
+
 def callback(request):
 
     client = _create_client()
