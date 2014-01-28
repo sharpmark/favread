@@ -41,13 +41,15 @@ def list(request, page_id):
         return HttpResponseRedirect(client.get_authorize_url())
     client.set_access_token(u.auth_token, u.expired_time)
 
-    page_pre_status = 10                # 每页显示多少条
-    page_id = int(page_id)              # 第几页
-    status_count = u.statuses.count()   # 用户收藏总条数
+    page_pre_status = 10                    # 每页显示多少条
+    page_id = int(page_id)                  # 第几页
+    status_count = u.get_statuses_count()   # 用户收藏总条数，不包括删除或归档的
     page_count = get_page_count(status_count, page_pre_status)
 
-    if page_count < page_id or page_id < 1: 
-        raise Http404
+    if page_count < page_id:
+        return HttpResponseRedirect('/page/%d/' % page_count)
+    if page_id < 1: 
+        return HttpResponseRedirect('/page/1/')
 
     favlist = u.get_statuses(page_id, count=page_pre_status)
 
@@ -60,7 +62,7 @@ def list(request, page_id):
 def status(request, status_id):
     status = Status.objects.get(id=status_id)
     return render(request, 'status.html', {
-        'status': json.loads(status.content),
+        'status': json.loads(status.raw_content),
         }, )
 
 def favorites(request):
@@ -70,13 +72,21 @@ def favorites(request):
         return HttpResponseRedirect(client.get_authorize_url())
     client.set_access_token(u.auth_token, u.expired_time)
 
+    ARCHIVED_CODE = 'archived'
+    NOT_FOUND_CODE = 'not found'
+
     if request.is_ajax() and request.method == 'POST':
-        if request.POST['action_type'] == 'destroy':
-            print request.POST['action_type']
-        
-        elif request.POST['action_type'] == 'archive':
-            print request.POST['action_type']
-        
+        action = request.POST['action_type']
+        status_id = request.POST['status_id']
+
+        if action == 'destroy':
+            #fav = Favorite.get(user=u, id=status_id)
+            print ''
+        elif action == 'archive':
+            if u.archive_status(status_id):
+                return HttpResponse(ARCHIVED_CODE)
+            else:
+                return HttpResponse(NOT_FOUND_CODE)
         else:
             pass
 

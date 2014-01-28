@@ -8,8 +8,10 @@ from sinaweibo.tools import *
 
 class Status(models.Model):
     id = models.BigIntegerField(primary_key=True)
-    content = models.CharField(max_length=5000)
-    #extra = models.TextField()
+    raw_content = models.CharField(max_length=5000)                 # 原始内容
+    parse_version = models.IntegerField(default=0)                  # 按照那个parse版本更新的
+    parsed_content = models.CharField(max_length=5000, null=True)   # 转化后的内容
+    extra_info = models.TextField(null=True)                        # 扩展内容，json格式，例如文章内容
 
 class User(models.Model):
     name = models.CharField(max_length=50)
@@ -36,12 +38,15 @@ class User(models.Model):
 
         start = (page - 1) * count;
 
-        statuses = Favorite.objects.filter(user=self).order_by('-fav_time')[start:start+count+1]
+        statuses = Favorite.objects.filter(user=self, is_archived=False).order_by('-fav_time')[start:start+count+1]
         for item in statuses:
-            status_list.append(json.loads(item.status.content))
+            status_list.append(json.loads(item.status.raw_content))
 
         favlist['favorites'] = status_list
         return favlist
+
+    def get_statuses_count(self):
+        return Favorite.objects.filter(user=self, is_archived=False).count()
 
     def save_status(self, status_dict):
         try:
@@ -60,12 +65,22 @@ class User(models.Model):
                 fav_time=strtodatetime(status_dict['favorited_time']))
             fav.save()
 
+    def archive_status(self, status_id):
+        status = self.statuses.get(id=status_id)
+        if status:
+            fav = Favorite.objects.get(user=self, status=status)
+            fav.is_archived = True
+            fav.save()
+            return True
+        else:
+            return False
+
 
 class Favorite(models.Model):
     user = models.ForeignKey(User)
     status = models.ForeignKey(Status)
     tags = models.CharField(max_length=2000)
     fav_time = models.DateTimeField()
-    #is_archived = models.BooleanField(default=False)
-    #is_destroy = models.BooleanField(default=False)
+    is_archived = models.BooleanField(default=False)
+    is_destroyed = models.BooleanField(default=False)
 

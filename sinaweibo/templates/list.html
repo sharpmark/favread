@@ -17,13 +17,13 @@
 <div id="feed_list">
 {% for status in favlist.favorites %}
     {% with user=status.user %}
-    <div class="feed" id="{{ status.mid }}"><div class="feed_detail">
+    <div class="feed" id="{{ status.id }}"><div class="feed_detail">
         <div class="avatar">
             <a class="avatar_radius" href="http://weibo.com/{{ user.profile_url }}"><img title="{{ user.name }}" width="50" height="50" src="{{ user.avatar_large }}" /></a>
         </div>
         <div class="detail">
             <div class="operate">
-                <a href="#" onclick="favorites({{ status.mid }}, 'destroy')">取消收藏</a>
+                <a href="#" onclick="favorites({{ status.id }}, 'archive')">已读</a>
             </div>
             <div class="info"><a class="name" href="http://weibo.com/{{ user.profile_url }}">{{ user.name }}</a></div>
             <div class="text">{{ status.text|statusfmt|safe }}</div>
