@@ -25,6 +25,20 @@ $(document).ready(function() {
 $(function () {
     $('#extra').perfectScrollbar();
     $('#left').perfectScrollbar();
-})
+});
+
+function favorites(id, action) {
+    post_data = {};
+    post_data['status_id'] = id;
+    post_data['action_type'] = action;
+    $.ajax({
+        type: 'POST',
+        url: '/favorites/',
+        data: post_data,
+        dataType: 'json'
+    });
+    event.stopPropagation()
+    $("#" + id).hide();
+}
 
 

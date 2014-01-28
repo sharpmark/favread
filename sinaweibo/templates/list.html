@@ -1,5 +1,5 @@
 <html>
-<head>
+<head>{% load status_extras %}
     <link type="text/css" rel="stylesheet" charset="utf-8" href="/static/styles/main.css" />
     <link href="/static/styles/perfect-scrollbar-0.4.6.min.css" rel="stylesheet">
     <script type="text/javascript" src="/static/js/jquery-1.10.2.min.js"></script>
@@ -15,7 +15,6 @@
 </nav -->
 <div id="left" class="fix_width">
 <div id="feed_list">
-{% load status_extras %}
 {% for status in favlist.favorites %}
     {% with user=status.user %}
     <div class="feed" id="{{ status.mid }}"><div class="feed_detail">
@@ -24,7 +23,7 @@
         </div>
         <div class="detail">
             <div class="operate">
-                <!--a href="#">取消收藏</a-->
+                <a href="#" onclick="favorites({{ status.mid }}, 'destroy')">取消收藏</a>
             </div>
             <div class="info"><a class="name" href="http://weibo.com/{{ user.profile_url }}">{{ user.name }}</a></div>
             <div class="text">{{ status.text|statusfmt|safe }}</div>
@@ -69,13 +68,16 @@
 {% endfor %}
 </div>
 <div class="pagination"><div class="step-links">
+    {% if prepage == 0 %}上一页{% else %}<a href="/page/{{ prepage }}/">上一页</a>{% endif %}
     {% for p in pages %}
         {% if current_page == p %}
         <span class="current">{{ p }}</span>
         {% else %}
         <a href="/page/{{ p }}/">{{ p }}</a>
         {% endif %}
-    {% endfor %}</div>
+    {% endfor %}
+    {% if nextpage == 0 %}下一页{% else %}<a href="/page/{{ nextpage }}/">下一页</a>
+    {% endif %}</div>
 </div></div>
 <div id="extra"></div>
 </body>

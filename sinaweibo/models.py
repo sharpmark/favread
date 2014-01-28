@@ -24,10 +24,10 @@ class User(models.Model):
     #expired_time = models.DateTimeField()
     statuses = models.ManyToManyField(Status, through='Favorite')
 
-    last_sync = models.DateTimeField(default=datetime(2000, 1, 1))              # 最后一次同步的时间
+    last_sync = models.DateTimeField(default=datetime(2000, 1, 1))          # 最后一次同步的时间
     create_time = models.DateTimeField(default=datetime.today())            # 第一次登录时间
-#    last_login = models.DateTimeField()             # 最后一次登录时间
-    user_level = models.IntegerField(default=0)     # 用户等级
+    #last_login = models.DateTimeField()             # 最后一次登录时间
+    user_level = models.IntegerField(default=0)      # 用户等级
 
     def get_statuses(self, page=1, count=50):
 
@@ -36,10 +36,8 @@ class User(models.Model):
 
         start = (page - 1) * count;
 
-        #statuses = self.statuses.all().order_by('-id')[start:start+count]
         statuses = Favorite.objects.filter(user=self).order_by('-fav_time')[start:start+count+1]
         for item in statuses:
-            #status_list.insert(0, json.loads(item.status.content))
             status_list.append(json.loads(item.status.content))
 
         favlist['favorites'] = status_list
@@ -68,3 +66,6 @@ class Favorite(models.Model):
     status = models.ForeignKey(Status)
     tags = models.CharField(max_length=2000)
     fav_time = models.DateTimeField()
+    #is_archived = models.BooleanField(default=False)
+    #is_destroy = models.BooleanField(default=False)
+

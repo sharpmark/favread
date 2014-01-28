@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.shortcuts import render
 #from django.core.paginator import Paginator
 import hashlib, base64, time
@@ -34,25 +34,53 @@ def logout(request):
     return response
 
 def list(request, page_id):
+
     u = _check_cookie(request)
     client = _create_client()
     if u is None:
         return HttpResponseRedirect(client.get_authorize_url())
     client.set_access_token(u.auth_token, u.expired_time)
 
-    favlist = u.get_statuses(page=int(page_id), count=10)
+    page_pre_status = 10                # 每页显示多少条
+    page_id = int(page_id)              # 第几页
+    status_count = u.statuses.count()   # 用户收藏总条数
+    page_count = get_page_count(status_count, page_pre_status)
+
+    if page_count < page_id or page_id < 1: 
+        raise Http404
+
+    favlist = u.get_statuses(page_id, count=page_pre_status)
 
     return render(request, 'list.html', {
-        'favlist': favlist, \
-        'pages': get_page_list(u.statuses.count(), 10, int(page_id)), \
-        'current_page': int(page_id), \
-        'my': u, },)
+        'my': u, 'favlist': favlist, 'current_page': page_id,
+        'pages': get_page_list(status_count, page_pre_status, page_id), 
+        'prepage': page_id - 1, 'nextpage': 0 if page_id == page_count else page_id + 1,
+         },)
 
 def status(request, status_id):
     status = Status.objects.get(id=status_id)
     return render(request, 'status.html', {
         'status': json.loads(status.content),
         }, )
+
+def favorites(request):
+    u = _check_cookie(request)
+    client = _create_client()
+    if u is None:
+        return HttpResponseRedirect(client.get_authorize_url())
+    client.set_access_token(u.auth_token, u.expired_time)
+
+    if request.is_ajax() and request.method == 'POST':
+        if request.POST['action_type'] == 'destroy':
+            print request.POST['action_type']
+        
+        elif request.POST['action_type'] == 'archive':
+            print request.POST['action_type']
+        
+        else:
+            pass
+
+    return HttpResponse('done')
 
 def callback(request):
 

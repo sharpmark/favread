@@ -22,11 +22,15 @@ def dict2obj(d):
         o.__dict__[k] = dict2obj(d[k])
     return o
 
-def get_page_list(total, pre = 50, current = 1):
+def get_page_count(total, pre=50):
     if total % pre == 0:
-        pages = total / pre
+        return total / pre
     else:
-        pages = total / pre + 1
+        return total / pre + 1
+
+def get_page_list(total, pre=50, current=1):
+
+    pages = get_page_count(total, pre)
 
     if current < 6:
         start = 1
