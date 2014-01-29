@@ -1,115 +1,48 @@
-div { display:block; }
-
 body {
-    font-size: 14px;
     background: #252525;
     color: #3f484f;
     font-family: "Open Sans",Arial,"Hiragino Sans GB","Microsoft YaHei","微软雅黑","STHeiti","WenQuanYi Micro Hei",SimSun,sans-serif;
     -webkit-font-smoothing:antialiased;
-    margin: 0;
-}
-a
-{ 
-    color: #0078b6; 
-    text-decoration: none;
-}
-a:visited {
-    text-decoration: none;
-}
-a:hover, a:active
-{
-    text-decoration: underline;
-}
-li { list-style: none; }
-
-#wrap { padding: 10px; }
-
-.fix_width
-{
-    max-width: 40%;
-    margin: 0 auto;
-}
-nav
-{
-    background: linear-gradient(#e0e0e0, #cccccc, #b0b0b0);
-    font-size: 18px;
-    -moz-border-radius-topleft: 0.4em;
-    -webkit-border-top-left-radius: 0.4em;
-    border-top-left-radius: 0.4em;
-    -moz-border-radius-topright: 0.4em;
-    -webkit-border-top-right-radius: 0.4em;
-    border-top-right-radius: 0.4em;
-}
-#mylink
-{
-    padding: 10px;
-    text-align: right;
+    padding-top: 70px;
 }
 
-#left
-{
-    float: left;
-    height: 100%;
-    overflow: hidden;
-    position: absolute;
-}
+.span-right { float: right; }
 
-#feed_list
+/* left panel status list */
+
+#status-list
 {
     background: #f8f8f8;
+    padding: 0 20px 0;
 }
-
-#extra
+.status-item
 {
-    left: 42%;
-    width: 55%;
-    max-height: 100%;
-    overflow: hidden;
-    position: absolute;
-    display: block;
-}
-.feed
-{
-    margin: 0 20px 0;
-    padding: 20px 0 0;
-}
-
-.feed_detail
-{
+    padding: 20px 0 11px;
     border-bottom-width: 1px;
     border-bottom-style: solid;
-    padding: 0 0 11px;
     border-color: #e6e6e6;
 }
-
-.avatar
+.status-user-avatar
 {
     float: left;
-    width: 50px;
     position: relative;
+    margin-right: 10px;
 }
-
-.name
-{
-    font-weight: bold;
-    font-size: 18px;
-    line-height: 16px;
-}
-
-.detail
-{
-    margin-left: 65px;
-}
-
-.text
+.status-text
 {
     font-size: 18px;
     line-height: 30px;
     padding: 4px 0 4px;
     word-break: break-all;
 }
-
-.retweeted
+.status-user-name a
+{
+    font-weight: bold;
+    font-size: 18px;
+    line-height: 16px;
+    color: #444;
+}
+.status-retweeted
 {
     border-width: 1px;
     border-style: solid;
@@ -118,83 +51,31 @@ nav
     padding: 10px 20px 10px;
     margin: 5px 0 15px;
     border-radius: 3px;
-    color: #444;
 }
-
-.func
-{
-    color: #aaa;
-}
-
-.handle, .operate
-{
-    float: right;
-}
-
-.media_list {
-    margin-right: 10px -20px;
-    padding: 0 0 0 10px;
-}
-
-.media_list li {
+.media-list li {
     display: inline;
-    margin: 0 9px 0 0;
     vertical-align: top;
 }
+.media-list li img { margin: 5px;}
 
-.name { color: #444; }
+.status-time { color: #aaa; }
 
-.time { color: #aaa; }
-
-.pic_min {
-    display: inline-block;
-    vertical-align: top;
+#pagination {
     text-align: center;
+    background-color: #f8f8f8;
 }
+.pagination { margin: 10px 0;}
+.pagination>li>a {padding: 6px 9px;}
 
-.pic_min img {
-    width: 50px;
-    height: 50px;
-}
+/* status detail */
 
-.pagination {
-    font-size: 20px;
-    background: linear-gradient(#e0e0e0, #cccccc, #b0b0b0);
-    font-size: 18px;
-    -moz-border-radius-bottomleft: 0.4em;
-    -webkit-border-bottom-left-radius: 0.4em;
-    border-bottom-left-radius: 0.4em;
-    -moz-border-radius-bottomright: 0.4em;
-    -webkit-border-bottom-right-radius: 0.4em;
-    border-bottom-right-radius: 0.4em;
-}
-
-.step-links {
-    padding: 10px;
-    text-align: center;
-}
-
-#logo-120 {
-    margin: 20px;
-}
-
-.welcome {
-     text-align: center;
-     background-color: #f2f2f2;
-     height: 100%;
-}
-
-#status_wrap
-{
-    padding: 10px;
-}
-#status_header_cover
+.detail-cover
 {
     position: relative;
     min-height: 35px;
 }
 
-#status_header_content
+.detail-header
 {
     position: relative;
     padding: 10px 0;
@@ -203,30 +84,51 @@ nav
     border-bottom-style: solid;
     border-color: #e6e6e6;
 }
-
-#status_header_logo
+.detail-logo
 {
     position: absolute;
     padding-left: 20px;
     bottom: 10px;
 }
-#status_header_logo img {
+.detail-logo img {
     width: 90px;
     height: 90px;
 }
-.pic_large img {
-    margin: 0 auto;
-    max-width: 600px;
-    display: block;
-}
-#status_header_info { margin-left: 140px; }
 
-#status_username h2 {
-    font-weight: bold;
+.detail-info { margin-left: 140px; }
+.detail-info h3, p {
     margin: 0;
+    margin-top: 5px;
 }
-#status_moreinfo p { margin: 0; }
-.status_detail {
+.detail-content {
     padding: 20px;
     background: #eee;
+}
+
+/* scroll left/right panel */
+#status-panel
+{
+    height: 100%;
+    overflow: scroll;
+}
+#status-detail
+{
+    max-height: 100%;
+    overflow: scroll;
+}
+
+/* welcome page */
+#logo-120 {
+    margin: 20px;
+}
+
+.about {
+    text-align: center;
+    background-color: #f2f2f2;
+}
+
+.welcome {
+    text-align: center;
+    background-color: #f2f2f2;
+    height: 100%;
 }

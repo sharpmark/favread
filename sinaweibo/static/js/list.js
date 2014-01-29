@@ -1,30 +1,21 @@
 var selectedid = -1;
 
 $(document).ready(function() {
-    $(".feed").click(function() {
+    $(".status-item").click(function() {
         nowid = $(this).attr("id");
         if (selectedid == nowid) {
-            $("#extra").toggle();
+            $("#status-detail").toggle();
         }
         else {
-            if (! $("#extra").is(":visible")) {
-                $("#extra").show();
+            if (! $("#status-detail").is(":visible")) {
+                $("#status-detail").show();
             }
 
-            $("#extra").html($.ajax({url:"/status/"+nowid+"/", async:false}).responseText);
+            $("#status-detail").html($.ajax({url:"/status/"+nowid+"/", async:false}).responseText);
 
             selectedid = nowid;
         }
     });
-    $(window).resize(function() {
-        $("#extra").perfectScrollbar('update');
-        $("#left").perfectScrollbar('update');
-    });
-});
-
-$(function () {
-    $('#extra').perfectScrollbar();
-    $('#left').perfectScrollbar();
 });
 
 function favorites(id, action) {

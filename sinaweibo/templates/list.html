@@ -1,84 +1,110 @@
-<html>
+<html lang="zh-cn">
 <head>{% load status_extras %}
-    <link type="text/css" rel="stylesheet" charset="utf-8" href="/static/styles/main.css" />
-    <link href="/static/styles/perfect-scrollbar-0.4.6.min.css" rel="stylesheet">
-    <script type="text/javascript" src="/static/js/jquery-1.10.2.min.js"></script>
-    <script type="text/javascript" src="/static/js/perfect-scrollbar-0.4.6.with-mousewheel.min.js"></script>
-    <script type="text/javascript" src="/static/js/list.js"></script>
-    <title>我的收藏 - FavRead</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="/static/js/jquery-1.10.2.min.js"></script>
+  <link rel="stylesheet" href="http://cdn.bootcss.com/twitter-bootstrap/3.0.3/css/bootstrap.min.css">
+  <link rel="stylesheet" href="http://cdn.bootcss.com/twitter-bootstrap/3.0.3/css/bootstrap-theme.min.css">
+  <script src="/static/js/bootstrap.min.js"></script>
+
+  <link type="text/css" rel="stylesheet" charset="utf-8" href="/static/styles/main.css" />
+  <script src="/static/js/list.js"></script>
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+    <script src="http://cdn.bootcss.com/html5shiv/3.7.0/html5shiv.min.js"></script>
+    <script src="http://cdn.bootcss.com/respond.js/1.3.0/respond.min.js"></script>
+  <![endif]-->
+
+  <title>我的收藏 - FavRead</title>
 </head>
 <body>
-<!-- nav>
-    <div id="mylink">
-        <span>{{ my.name }} | <a href="/logout/">退出</a></span>
-    </div>
-</nav -->
-<div id="left" class="fix_width">
-<div id="feed_list">
-{% for status in favlist.favorites %}
-    {% with user=status.user %}
-    <div class="feed" id="{{ status.id }}"><div class="feed_detail">
-        <div class="avatar">
-            <a class="avatar_radius" href="http://weibo.com/{{ user.profile_url }}"><img title="{{ user.name }}" width="50" height="50" src="{{ user.avatar_large }}" /></a>
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+  <div class="navbar-header">
+    <a class="navbar-brand" href="/">FavRead</a>
+  </div>
+
+  <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+    <ul class="nav navbar-nav">
+      <li class="active"><a href="/">我的收藏</a></li>
+      <li><a href="#">已归档</a></li>
+    </ul>
+    <ul class="nav navbar-nav navbar-right">
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ my.name }}<b class="caret"></b></a>
+        <ul class="dropdown-menu">
+          <li><a href="http://weibo.com/" target="_blank">我的微博</a></li>
+          <li class="divider"></li>
+          <li><a href="/logout/">退出</a></li>
+        </ul>
+      </li>
+      <li><a href="/about/" target="_blank">关于</a></li>
+    </ul>
+  </div><!-- /.navbar-collapse -->
+</nav>
+<div class="container"><div class="row">
+<div id="status-panel" class="col-md-5">
+  <div id="status-list">
+  {% for status in favlist.favorites %}
+  {% with user=status.user %}
+    <div class="status-item" id="{{ status.id }}">
+      <div class="status-info">
+        <div class="status-user-avatar">
+          <a href="http://weibo.com/{{ user.profile_url }}">
+            <img class="img-rounded" title="{{ user.name }}" width="50" height="50" src="{{ user.avatar_large }}" />
+          </a>
         </div>
-        <div class="detail">
-            <div class="operate">
-                <a href="#" onclick="favorites({{ status.id }}, 'archive')">已读</a>
-            </div>
-            <div class="info"><a class="name" href="http://weibo.com/{{ user.profile_url }}">{{ user.name }}</a></div>
-            <div class="text">{{ status.text|statusfmt|safe }}</div>
-            {% if status.pic_urls %}
-            <ul class="media_list bigcursor">
-                {% for pic in status.pic_urls %}
-                <li><div class="pic_min">
-                    <img class="bigcursor" src="{{ pic.thumbnail_pic|imagesquare }}" />
-                </div></li>
-                {% endfor %}
-            </ul>
-            {% endif %}
-            {% if status.retweeted_status %}{% with rtuser=status.retweeted_status.user rtstatus=status.retweeted_status %}
-            <div class="retweeted">
-                <div>
-                    <div class="info"><a class="name" href="http://weibo.com/{{ rtuser.profile_url }}">{{ rtuser.name }}</a></div>
-                    <div class="text">{{ rtstatus.text|statusfmt|safe }}</div>
-                </div>
-                {% if rtstatus.pic_urls %}
-                <ul class="media_list bigcursor">
-                    {% for pic in rtstatus.pic_urls %}
-                    <li><div class="pic_min">
-                        <img class="bigcursor" src="{{ pic.thumbnail_pic|imagesquare }}" />
-                    </div></li>
-                    {% endfor %}
-                </ul>
-                {% endif %}
-                <div class="expand" style="display: none;"></div>
-                <div class="func">
-                    <div class="handle">赞({{ rtstatus.attitudes_count }})| 转发({{ rtstatus.reposts_count }}) | 评论({{ rtstatus.comments_count }})</div>
-                    <div class="from"><a class="time" href="http://weibo.com/{{ rtuser.id }}/{{ rtstatus.mid|mid2url }}" target="_blank">{{ rtstatus.created_at|timefmt }}</a></div>
-                </div>
-            </div>
-            {% endwith %}{% endif %}
-            <div class="func">
-                <div class="handle">赞({{ status.attitudes_count }})| 转发({{ status.reposts_count }}) | 评论({{ status.comments_count }})</div>
-                <div class="from"><a class="time" href="http://weibo.com/{{ user.id }}/{{ status.mid|mid2url }}" target="_blank">{{ status.created_at|timefmt }}</a></div>
-            </div>
+        <span class="status-user-name"><a href="http://weibo.com/{{ user.profile_url }}">{{ user.name }}</a></span>
+        <span class="status-operator span-right"><a href="#" onclick="favorites({{ status.id }}, 'archive')">已读</a></span>
+      </div>
+      <div class="status-text">
+        {{ status.text|statusfmt|safe }}
+      </div>
+      {% if status.pic_urls %}
+      <ul class="media-list list-unstyled">
+        {% for pic in status.pic_urls %}
+        <li><img class="img-square" src="{{ pic.thumbnail_pic|imagesquare }}" /></li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+      {% if status.retweeted_status %}{% with rtuser=status.retweeted_status.user rtstatus=status.retweeted_status %}
+      <div class="status-retweeted">
+        <div class="status-text">
+            <span class="status-user-name"><a href="http://weibo.com/{{ rtuser.profile_url }}">{{ rtuser.name }}</a>：</span>{{ rtstatus.text|statusfmt|safe }}
         </div>
-    </div>
-{% endwith %}</div>
-{% endfor %}
-</div>
-<div class="pagination"><div class="step-links">
-    {% if prepage == 0 %}上一页{% else %}<a href="/page/{{ prepage }}/">上一页</a>{% endif %}
-    {% for p in pages %}
-        {% if current_page == p %}
-        <span class="current">{{ p }}</span>
-        {% else %}
-        <a href="/page/{{ p }}/">{{ p }}</a>
+        {% if rtstatus.pic_urls %}
+        <ul class="media-list list-unstyled">
+          {% for pic in rtstatus.pic_urls %}
+          <li><img class="img-square" src="{{ pic.thumbnail_pic|imagesquare }}" /></li>
+          {% endfor %}
+        </ul>
         {% endif %}
+        <div class="status-tail">
+          <span class="status-from"><a href="http://weibo.com/{{ rtuser.id }}/{{ rtstatus.id|mid2url }}" target="_blank">{{ rtstatus.created_at|timefmt }}</a></span>
+          <span class="status-handle span-right">赞({{ rtstatus.attitudes_count }}) | 转发({{ rtstatus.reposts_count }}) | 评论({{ rtstatus.comments_count }})</span>
+        </div>
+      </div>
+      {% endwith %}{% endif %}
+      <div class="status-tail">
+        <span class="status-from"><a href="http://weibo.com/{{ user.id }}/{{ status.id|mid2url }}" target="_blank">{{ status.created_at|timefmt }}</a></span>
+        <span class="status-handle span-right">赞({{ status.attitudes_count }}) | 转发({{ status.reposts_count }}) | 评论({{ status.comments_count }})</span>
+      </div>
+    </div>
+    {% endwith %}
     {% endfor %}
-    {% if nextpage == 0 %}下一页{% else %}<a href="/page/{{ nextpage }}/">下一页</a>
-    {% endif %}</div>
+  </div>
+  <div id="pagination">
+    <ul class="pagination">
+      <li>{% if prepage == 0 %}<span class="disabled">&laquo;</span>{% else %}<a href="/page/{{ prepage }}/">&laquo;</a>{% endif %}</li>
+      {% for p in pages %}
+      <li>{% if current_page == p %}<span class="disabled">{{ p }}</span>{% else %}<a href="/page/{{ p }}/">{{ p }}</a>{% endif %}</li>
+      {% endfor %}
+      <li>{% if nextpage == 0 %}<span class="disabled">&raquo;</span>{% else %}<a href="/page/{{ nextpage }}/">&raquo;</a>{% endif %}</li>
+    </ul>
+  </div>
+</div>
+<div id="status-detail" class="col-md-7"></div>
 </div></div>
-<div id="extra"></div>
 </body>
 </html>

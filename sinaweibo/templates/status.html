@@ -1,58 +1,58 @@
 {% load status_extras %}
 {% with user=status.user %}
-<div id="status_wrap">
-    <div id="status_header">
-        <div id="status_header_cover"></div>
-        <div id="status_header_wrap"><div id="status_header_content">
-            <div id="status_header_logo">
-                <img src="{{ user.avatar_large }}" width="180" height="180" alt="{{ user.name }}" title="{{ user.name }}">
-            </div>
-            <div id="status_header_info">
-                <div id="status_username"><h2>{{ user.name }}</h2></div>
-                <div id="status_moreinfo"><p>关注:{{ user.bi_followers_count }}&nbsp;&nbsp;&nbsp;粉丝:{{ user.followers_count }}&nbsp;&nbsp;&nbsp;微博:{{ user.statuses_count }}</p></div>
-            </div>
-        </div></div>
+  <div class="detail-cover"></div>
+  <div class="detail-header">
+    <div class="detail-logo">
+      <img class="img-thumbnail" src="{{ user.avatar_large }}" width="180" height="180" alt="{{ user.name }}" title="{{ user.name }}">
     </div>
-    <div class="status_detail" id="{{ status.mid }}">
-        <div class="operate">
-            <!--a href="#">取消收藏</a-->
-        </div>
-        <div class="text">{{ status.text|statusfmt|safe }}</div>
-        {% if status.pic_urls %}
-        <ul class="media_list bigcursor">
-            {% for pic in status.pic_urls %}
-            <li><div class="pic_large">
-                <a href="{{ pic.thumbnail_pic|imagelarge }}" target="_blank"><img class="bigcursor" src="{{ pic.thumbnail_pic|imagelarge }}" /></a>
-            </div></li>
-            {% endfor %}
-        </ul>
-        {% endif %}
-        {% if status.retweeted_status %}{% with rtuser=status.retweeted_status.user rtstatus=status.retweeted_status %}
-        <div class="retweeted">
-            <div>
-                <div class="info"><a class="name" href="http://weibo.com/{{ rtuser.profile_url }}">{{ rtuser.name }}</a></div>
-                <div class="text">{{ rtstatus.text|statusfmt|safe }}</div>
-            </div>
-            {% if rtstatus.pic_urls %}
-            <ul class="media_list bigcursor">
-                {% for rpic in rtstatus.pic_urls %}
-                <li><div class="pic_large">
-                    <a href="{{ rpic.thumbnail_pic|imagelarge }}" target="_blank"><img class="bigcursor" src="{{ rpic.thumbnail_pic|imagelarge }}" /></a>
-                </div></li>
-                {% endfor %}
-            </ul>
-            {% endif %}
-            <div class="expand" style="display: none;"></div>
-            <div class="func">
-                <div class="handle">赞({{ rtstatus.attitudes_count }})| 转发({{ rtstatus.reposts_count }}) | 评论({{ rtstatus.comments_count }})</div>
-                <div class="from"><a class="time" href="http://weibo.com/{{ rtuser.id }}/{{ rtstatus.mid|mid2url }}" target="_blank">{{ rtstatus.created_at|timefmt }}</a></div>
-            </div>
-        </div>
-        {% endwith %}{% endif %}
-        <div class="func">
-            <div class="handle">赞({{ status.attitudes_count }})| 转发({{ status.reposts_count }}) | 评论({{ status.comments_count }})</div>
-            <div class="from"><a class="time" href="http://weibo.com/{{ user.id }}/{{ status.mid|mid2url }}" target="_blank">{{ status.created_at|timefmt }}</a></div>
-        </div>
+    <div class="detail-info">
+      <div class="detail-username"><h3>{{ user.name }}</h3></div>
+      <div class="detail-moreinfo"><p>关注:{{ user.bi_followers_count }}&nbsp;&nbsp;&nbsp;粉丝:{{ user.followers_count }}&nbsp;&nbsp;&nbsp;微博:{{ user.statuses_count }}</p></div>
     </div>
-</div>
+  </div>
+  <div class="detail-content" id="{{ status.id }}">
+    <!--div class="operate">
+      <a href="#">取消收藏</a>
+    </div-->
+    <div class="status-text">
+      {{ status.text|statusfmt|safe }}
+    </div>
+    {% if status.pic_urls %}
+    <ul class="media-list list-unstyled">
+      {% for pic in status.pic_urls %}
+      <li>
+        <a href="{{ pic.thumbnail_pic|imagelarge }}" target="_blank">
+          <img class="img-responsive img-rounded" src="{{ pic.thumbnail_pic|imagelarge }}" />
+        </a>
+      </li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+    {% if status.retweeted_status %}{% with rtuser=status.retweeted_status.user rtstatus=status.retweeted_status %}
+    <div class="status-retweeted">
+      <div class="status-text">
+        <span class="status-user-name"><a href="http://weibo.com/{{ rtuser.profile_url }}">{{ rtuser.name }}</a>：</span>{{ rtstatus.text|statusfmt|safe }}
+      </div>
+      {% if rtstatus.pic_urls %}
+      <ul class="media-list list-unstyled">
+        {% for rpic in rtstatus.pic_urls %}
+        <li>
+          <a href="{{ rpic.thumbnail_pic|imagelarge }}" target="_blank">
+            <img class="img-responsive img-rounded" src="{{ rpic.thumbnail_pic|imagelarge }}" />
+          </a>
+        </li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+      <div class="status-tail">
+        <span class="status-from"><a href="http://weibo.com/{{ rtuser.id }}/{{ rtstatus.id|mid2url }}" target="_blank">{{ rtstatus.created_at|timefmt }}</a></span>
+        <span class="status-handle span-right">赞({{ rtstatus.attitudes_count }}) | 转发({{ rtstatus.reposts_count }}) | 评论({{ rtstatus.comments_count }})</span>
+      </div>
+    </div>
+    {% endwith %}{% endif %}
+    <div class="status-tail">
+      <span class="status-from"><a href="http://weibo.com/{{ user.id }}/{{ status.id|mid2url }}" target="_blank">{{ status.created_at|timefmt }}</a></span>
+      <span class="status-handle span-right">赞({{ status.attitudes_count }}) | 转发({{ status.reposts_count }}) | 评论({{ status.comments_count }})</span>
+    </div>
+  </div>
 {% endwith %}

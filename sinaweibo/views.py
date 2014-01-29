@@ -2,7 +2,6 @@
 
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.shortcuts import render
-#from django.core.paginator import Paginator
 import hashlib, base64, time
 from datetime import datetime
 import json
@@ -14,6 +13,7 @@ from sinaweibo.crawler import *
 from sinaweibo.tools import *
 
 def test(request):
+    #return render(request, 'test.html')
     return HttpResponseRedirect('/')
 
 def index(request):
@@ -21,9 +21,6 @@ def index(request):
         return HttpResponseRedirect('/welcome/')
     else:
         return HttpResponseRedirect('/page/1/')
-
-def welcome(request):
-    return render(request, 'welcome.html')
 
 def login(request):
     return HttpResponseRedirect(_create_client().get_authorize_url())
@@ -91,6 +88,12 @@ def favorites(request):
             pass
 
     return HttpResponse('done')
+
+def welcome(request):
+    return render(request, 'welcome.html')
+
+def about(request):
+    return render(request, 'about.html')
 
 def callback(request):
 
