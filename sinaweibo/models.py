@@ -54,7 +54,7 @@ class User(models.Model):
         except Status.DoesNotExist:
             status = Status(
                 id=status_dict['status']['id'], 
-                content=json.dumps(status_dict['status']))
+                raw_content=json.dumps(status_dict['status']))
             status.save()
 
         try:
