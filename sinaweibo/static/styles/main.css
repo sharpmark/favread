@@ -106,15 +106,11 @@ body {
 }
 
 /* scroll left/right panel */
-#status-panel
-{
-    height: 100%;
-    overflow: scroll;
-}
-#status-detail
+#status-panel, #status-detail
 {
     max-height: 100%;
-    overflow: scroll;
+    position: relative;
+    overflow: hidden;
 }
 
 /* welcome page */

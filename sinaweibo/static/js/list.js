@@ -1,21 +1,34 @@
 var selectedid = -1;
 
 $(document).ready(function() {
-    $(".status-item").click(function() {
-        nowid = $(this).attr("id");
+
+    $('#status-panel').perfectScrollbar({suppressScrollX: true});
+
+    $('.status-item').click(function() {
+        nowid = $(this).attr('id');
         if (selectedid == nowid) {
-            $("#status-detail").toggle();
+            $('#status-detail').toggle();
         }
         else {
-            if (! $("#status-detail").is(":visible")) {
-                $("#status-detail").show();
+
+            $('#status-detail').perfectScrollbar('destroy');
+
+            $('#status-detail').html($.ajax({url:'/status/'+nowid+'/', async:false}).responseText);
+            selectedid = nowid;
+
+            if (! $('#status-detail').is(':visible')) {
+                $('#status-detail').show();
             }
 
-            $("#status-detail").html($.ajax({url:"/status/"+nowid+"/", async:false}).responseText);
-
-            selectedid = nowid;
+            $('#status-detail').perfectScrollbar({suppressScrollX: true});
         }
     });
+
+    $(window).resize(function() {
+        $('#status-detail').perfectScrollbar('update');
+        $('#status-panel').perfectScrollbar('update');
+    });
+
 });
 
 function favorites(id, action) {
@@ -31,5 +44,3 @@ function favorites(id, action) {
     event.stopPropagation()
     $("#" + id).hide();
 }
-
-
