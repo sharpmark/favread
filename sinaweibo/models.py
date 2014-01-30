@@ -38,7 +38,7 @@ class User(models.Model):
 
         start = (page - 1) * count;
 
-        statuses = Favorite.objects.filter(user=self, is_archived=False).order_by('-fav_time')[start:start+count+1]
+        statuses = Favorite.objects.filter(user=self, is_archived=False, is_destroyed=False).order_by('-fav_time')[start:start+count+1]
         for item in statuses:
             status_list.append(json.loads(item.status.raw_content))
 
@@ -74,6 +74,17 @@ class User(models.Model):
             return True
         else:
             return False
+
+    def destroy_status(self, status_id):
+        status = self.statuses.get(id=status_id)
+        if status:
+            fav = Favorite.objects.get(user=self, status=status)
+            fav.is_destroyed = True
+            fav.save()
+            return True
+        else:
+            return False
+
 
 
 class Favorite(models.Model):

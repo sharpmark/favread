@@ -54,7 +54,7 @@
   <div id="status-list">
   {% for status in favlist.favorites %}
   {% with user=status.user %}
-    <div class="status-item" id="{{ status.id }}">
+    <div class="status-item" id="item-{{ status.id }}" sid="{{ status.id }}">
       <div class="status-info">
         <div class="status-user-avatar">
           <a href="http://weibo.com/{{ user.profile_url }}">
@@ -62,7 +62,14 @@
           </a>
         </div>
         <span class="status-user-name"><a href="http://weibo.com/{{ user.profile_url }}">{{ user.name }}</a></span>
-        <span class="status-operator span-right"><a href="#" onclick="favorites({{ status.id }}, 'archive')">已读</a></span>
+        <span id="{{status.id}}-opt" class="status-operator span-right">
+          <a href="#" onclick="favorites({{ status.id }}, 'archive')">已读</a> | 
+          <a href="#" onclick="switch_opt({{ status.id }})">删除</a>
+        </span>
+        <span id="{{status.id}}-del" class="status-delete span-right">
+          <a href="#" onclick="favorites({{ status.id }}, 'destroy')">确认删除</a> | 
+          <a href="#" onclick="switch_opt({{ status.id }})">取消</a>
+        </span>
       </div>
       <div class="status-text">
         {{ status.text|statusfmt|safe }}

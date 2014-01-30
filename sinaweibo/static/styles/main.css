@@ -67,6 +67,9 @@ body {
 .pagination { margin: 10px 0;}
 .pagination>li>a {padding: 6px 9px;}
 
+/* status dialog */
+.status-delete { display: none; }
+
 /* status detail */
 
 .detail-cover

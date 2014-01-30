@@ -5,7 +5,7 @@ $(document).ready(function() {
     $('#status-panel').perfectScrollbar({suppressScrollX: true});
 
     $('.status-item').click(function() {
-        nowid = $(this).attr('id');
+        nowid = $(this).attr('sid');
         if (selectedid == nowid) {
             $('#status-detail').toggle();
         }
@@ -41,6 +41,20 @@ function favorites(id, action) {
         data: post_data,
         dataType: 'json'
     });
-    event.stopPropagation()
-    $("#" + id).hide();
-}
+
+    if (id == selectedid) {
+        $('#status-detail').hide();
+    }
+
+    // 不需要，因为整个status会被删除。
+    // if ('destroy'==action) { switch_opt(id); }
+
+    event.stopPropagation();
+    $("#item-" + id).remove();
+};
+
+function switch_opt(id) {
+    $('#'+id+'-del').toggle();
+    $('#'+id+'-opt').toggle();
+    event.stopPropagation();
+};

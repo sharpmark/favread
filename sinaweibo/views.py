@@ -70,6 +70,7 @@ def favorites(request):
     client.set_access_token(u.auth_token, u.expired_time)
 
     ARCHIVED_CODE = 'archived'
+    DESTROY_CODE = 'destroy'
     NOT_FOUND_CODE = 'not found'
 
     if request.is_ajax() and request.method == 'POST':
@@ -77,8 +78,12 @@ def favorites(request):
         status_id = request.POST['status_id']
 
         if action == 'destroy':
-            #fav = Favorite.get(user=u, id=status_id)
-            print ''
+            client.favorites.destroy.post(id=status_id)
+
+            if u.destroy_status(status_id):
+                return HttpResponse(DESTROY_CODE)
+            else:
+                return HttpResponse(NOT_FOUND_CODE)
         elif action == 'archive':
             if u.archive_status(status_id):
                 return HttpResponse(ARCHIVED_CODE)
