@@ -31,10 +31,11 @@ $(document).ready(function() {
 
 });
 
-function favorites(id, action) {
+function favorites(id, action, csrf) {
     post_data = {};
     post_data['status_id'] = id;
     post_data['action_type'] = action;
+    post_data['csrfmiddlewaretoken'] = csrf;
     $.ajax({
         type: 'POST',
         url: '/favorites/',

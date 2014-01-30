@@ -12,6 +12,7 @@
 
   <link type="text/css" rel="stylesheet" charset="utf-8" href="/static/styles/perfect-scrollbar-0.4.6.min.css" />
   <script src="/static/js/perfect-scrollbar-0.4.6.with-mousewheel.min.js"></script>
+  <script src="/static/js/jquery.cookie.js"></script>
 
   <link type="text/css" rel="stylesheet" charset="utf-8" href="/static/styles/main.css" />
   <script src="/static/js/list.js"></script>
@@ -63,11 +64,11 @@
         </div>
         <span class="status-user-name"><a href="http://weibo.com/{{ user.profile_url }}">{{ user.name }}</a></span>
         <span id="{{status.id}}-opt" class="status-operator span-right">
-          <a href="#" onclick="favorites({{ status.id }}, 'archive')">已读</a> | 
+          <a href="#" onclick="favorites({{ status.id }}, 'archive', '{{ csrf_token }}')">已读</a> | 
           <a href="#" onclick="switch_opt({{ status.id }})">删除</a>
         </span>
         <span id="{{status.id}}-del" class="status-delete span-right">
-          <a href="#" onclick="favorites({{ status.id }}, 'destroy')">确认删除</a> | 
+          <a href="#" onclick="favorites({{ status.id }}, 'destroy', '{{ csrf_token }}')">确认删除</a> | 
           <a href="#" onclick="switch_opt({{ status.id }})">取消</a>
         </span>
       </div>
