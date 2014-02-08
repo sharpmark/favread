@@ -2,7 +2,7 @@ var selectedid = -1;
 
 $(document).ready(function() {
 
-    $('#status-panel').perfectScrollbar({suppressScrollX: true});
+    $('#status-panel').perfectScrollbar({wheelSpeed: 30, suppressScrollX: true});
 
     $('.status-item').click(function() {
         nowid = $(this).attr('sid');
@@ -20,7 +20,7 @@ $(document).ready(function() {
                 $('#status-detail').show();
             }
 
-            $('#status-detail').perfectScrollbar({suppressScrollX: true});
+            $('#status-detail').perfectScrollbar({wheelSpeed: 30, suppressScrollX: true});
         }
     });
 

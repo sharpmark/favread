@@ -90,11 +90,11 @@ def base62_decode(string, alphabet=ALPHABET):
  
     return num
 
-def url2mid(url):
+def url2id(url):
     '''
-    >>> url_to_mid('z0JH2lOMb')
+    >>> url2id('z0JH2lOMb')
     3501756485200075L
-    >>> url_to_mid('z0Ijpwgk7')
+    >>> url2id('z0Ijpwgk7')
     3501703397689247L
     '''
     url = str(url)[::-1]
@@ -111,11 +111,11 @@ def url2mid(url):
     return int(''.join(result))
 
 @register.filter
-def mid2url(value):
+def id2url(value):
     '''
-    >>> mid_to_url(3501756485200075)
+    >>> id2url(3501756485200075)
     'z0JH2lOMb'
-    >>> mid_to_url(3501703397689247)
+    >>> id2url(3501703397689247)
     'z0Ijpwgk7'
     '''
     value = str(value)[::-1]

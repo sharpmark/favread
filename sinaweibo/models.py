@@ -62,7 +62,7 @@ class User(models.Model):
         except Favorite.DoesNotExist:
             fav = Favorite(
                 user=self, status=status,
-                fav_time=strtodatetime(status_dict['favorited_time']))
+                fav_time=str2datetime(status_dict['favorited_time']))
             fav.save()
 
     def archive_status(self, status_id):

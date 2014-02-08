@@ -1,16 +1,5 @@
-
-*.sublime-project
-
 *.sqlite
-
-*.sublime-workspace
-
 *.pyc
-
-MileStone.md
-
 sinaweibo/config.py
-
 *.sh
-
 sinaweibo/settings.py

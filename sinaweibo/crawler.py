@@ -42,13 +42,13 @@ def crawler_favorites(client, user, count=50):
 
     for i in range(1, total_page):
         statuses = client.favorites.get(uid=user.id, page=i, count=count)
-        page_first_time = strtodatetime(statuses['favorites'][0]['favorited_time'])
+        page_first_time = str2datetime(statuses['favorites'][0]['favorited_time'])
 
         if page_first_time < compare_date:
             return cawler_count
 
         for status in statuses['favorites']:
-            if compare_date > strtodatetime(status['favorited_time']):
+            if compare_date > str2datetime(status['favorited_time']):
                 return cawler_count
 
             #print 'saving status: %d' % status['status']['id']

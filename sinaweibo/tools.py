@@ -4,7 +4,7 @@ from datetime import datetime
 from time import mktime
 import time
 
-def strtodatetime(strvalue):
+def str2datetime(strvalue):
     return datetime.fromtimestamp(
         mktime(time.strptime(strvalue, '%a %b %d %H:%M:%S +0800 %Y')))
 
