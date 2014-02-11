@@ -31,6 +31,23 @@ class User(models.Model):
     #last_login = models.DateTimeField()             # 最后一次登录时间
     user_level = models.IntegerField(default=0)      # 用户等级
 
+    def get_all_status(self, archived, destroyed):
+
+        favlist = {}
+        status_list = []
+
+        if archived == None and destroyed == None:
+            statuses = Favorite.objects.filter(user=self).order_by('-fav_time')
+        elif archived == None and destroyed != None:
+            statuses = Favorite.objects.filter(user=self, is_destroyed=destroyed).order_by('-fav_time')
+        elif archived != None and destroyed == None:
+            statuses = Favorite.objects.filter(user=self, is_archived=archived).order_by('-fav_time')
+        else:
+            statuses = Favorite.objects.filter(user=self, is_archived=archived, is_destroyed=destroyed).order_by('-fav_time')
+
+        return statuses
+        # 这里有坑，有的返回的是Status对象列表，有的是json格式
+
     def get_statuses(self, page=1, count=50):
 
         favlist = {}
@@ -46,7 +63,7 @@ class User(models.Model):
         return favlist
 
     def get_statuses_count(self):
-        return Favorite.objects.filter(user=self, is_archived=False).count()
+        return Favorite.objects.filter(user=self, is_archived=False, is_destroyed=False).count()
 
     def save_status(self, status_dict):
         try:
