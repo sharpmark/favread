@@ -57,7 +57,9 @@ class User(models.Model):
 
         statuses = Favorite.objects.filter(user=self, is_archived=False, is_destroyed=False).order_by('-fav_time')[start:start+count+1]
         for item in statuses:
-            status_list.append(json.loads(item.status.raw_content))
+            status_dict = json.loads(item.status.raw_content)
+            status_dict['tags'] = json.loads(item.tags)
+            status_list.append(status_dict)
 
         favlist['favorites'] = status_list
         return favlist
@@ -78,7 +80,7 @@ class User(models.Model):
             fav = Favorite.objects.get(user=self, status=status)
         except Favorite.DoesNotExist:
             fav = Favorite(
-                user=self, status=status,
+                user=self, status=status, tags=json.dumps(status_dict['tags']),
                 fav_time=str2datetime(status_dict['favorited_time']))
             fav.save()
 

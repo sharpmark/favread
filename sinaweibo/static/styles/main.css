@@ -116,6 +116,57 @@ body {
     overflow: hidden;
 }
 
+/* tag panel */
+.tag-wrap {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    padding:3px;
+    border: 1px solid #ccc;
+    background: #fff;
+    display: none;
+}
+
+.tag-close {
+    position: absolute;
+    z-index: 2;
+    right: 18px;
+    top: 18px;
+    display:inline-block;
+}
+
+.tag-add {
+    width: 215px;
+    padding: 10px 15px 15px;
+    overflow: hidden;
+}
+
+.tag-add .tips {
+    padding: 5px 0 10px 0;
+}
+
+.tag-add .input-outer {
+    border: 1px solid #C6C6C6;
+    padding: 0 1px;
+}
+
+.tag-add .input-outer input {
+    box-shadow: none;
+    border: 0;
+}
+
+.tag-item {
+    background: #e8f4fc;
+    display: inline-block;
+    margin: 0 3px 3px 0;
+    padding: 1px 10px;
+    box-shadow: 1px 1px 1px #dae0e5;
+}
+
+.tag-operator {
+    padding-top: 20px;
+}
+
 /* welcome page */
 #logo-120 {
     margin: 20px;

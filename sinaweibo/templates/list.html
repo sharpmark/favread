@@ -3,19 +3,10 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <script src="http://cdn.bootcss.com/jquery/1.10.2/jquery.min.js"></script>
-
   <link rel="stylesheet" href="http://cdn.bootcss.com/twitter-bootstrap/3.0.3/css/bootstrap.min.css">
   <link rel="stylesheet" href="http://cdn.bootcss.com/twitter-bootstrap/3.0.3/css/bootstrap-theme.min.css">
-  <script src="http://cdn.bootcss.com/twitter-bootstrap/3.0.3/js/bootstrap.min.js"></script>
-
-
   <link type="text/css" rel="stylesheet" charset="utf-8" href="/static/styles/perfect-scrollbar-0.4.6.min.css" />
-  <script src="/static/js/perfect-scrollbar-0.4.6.with-mousewheel.min.js"></script>
-  <script src="/static/js/jquery.cookie.js"></script>
-
   <link type="text/css" rel="stylesheet" charset="utf-8" href="/static/styles/main.css" />
-  <script src="/static/js/list.js"></script>
 
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -68,7 +59,7 @@
           <a href="#" onclick="switch_opt({{ status.id }})">删除</a>
         </span>
         <span id="{{status.id}}-del" class="status-delete span-right">
-          <a href="#" onclick="favorites({{ status.id }}, 'destroy', '{{ csrf_token }}')">确认删除</a> | 
+          <a href="#" onclick="favorites({{ status.id }}, 'destroy', '{{ csrf_token }}')">确认</a> | 
           <a href="#" onclick="switch_opt({{ status.id }})">取消</a>
         </span>
       </div>
@@ -95,14 +86,14 @@
         </ul>
         {% endif %}
         <div class="status-tail">
-          <span class="status-from"><a href="http://weibo.com/{{ rtuser.id }}/{{ rtstatus.id|id2url }}" target="_blank">{{ rtstatus.created_at|timefmt }}</a></span>
-          <span class="status-handle span-right">赞({{ rtstatus.attitudes_count }}) | 转发({{ rtstatus.reposts_count }}) | 评论({{ rtstatus.comments_count }})</span>
+          <span class="status-from"><a href="http://weibo.com/{{ rtuser.id }}/{{ rtstatus.id|id2url }}" target="_blank">{{ rtstatus.created_at|timefmt }}</a><!-- | <span class="glyphicon glyphicon-thumbs-up"></span> ({{ rtstatus.attitudes_count }}) | <span class="glyphicon glyphicon-retweet"></span> ({{ rtstatus.reposts_count }}) | <span class="glyphicon glyphicon-comment"></span> ({{ rtstatus.comments_count }})--></span>
         </div>
       </div>
       {% endwith %}{% endif %}
       <div class="status-tail">
-        <span class="status-from"><a href="http://weibo.com/{{ user.id }}/{{ status.id|id2url }}" target="_blank">{{ status.created_at|timefmt }}</a></span>
-        <span class="status-handle span-right">赞({{ status.attitudes_count }}) | 转发({{ status.reposts_count }}) | 评论({{ status.comments_count }})</span>
+        <span class="status-from"><a href="http://weibo.com/{{ user.id }}/{{ status.id|id2url }}" target="_blank">{{ status.created_at|timefmt }}</a><!-- | <span class="glyphicon glyphicon-thumbs-up"></span> ({{ status.attitudes_count }}) | <span class="glyphicon glyphicon-retweet"></span> ({{ status.reposts_count }}) | <span class="glyphicon glyphicon-comment"></span> ({{ status.comments_count }})--></span>
+        <!--span class="span-right tag-item"><a href="#"><span class="glyphicon glyphicon-tags"></span> 编辑</a></span-->
+        <span class="status-handle span-right status-tags">{% for tag in status.tags %} <a class="tag-item" href="#">{{ tag.tag }}</a>{% endfor %}</span>
       </div>
     </div>
     {% endwith %}
@@ -120,5 +111,12 @@
 </div>
 <div id="status-detail" class="col-md-7"></div>
 </div></div>
+
+  <script src="http://cdn.bootcss.com/twitter-bootstrap/3.0.3/js/bootstrap.min.js"></script>
+  <script src="http://cdn.bootcss.com/jquery/1.10.2/jquery.min.js"></script>
+  <script src="/static/js/perfect-scrollbar-0.4.6.with-mousewheel.min.js"></script>
+  <script src="/static/js/jquery.cookie.js"></script>
+  <script src="/static/js/list.js"></script>
+
 </body>
 </html>
