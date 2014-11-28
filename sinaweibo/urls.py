@@ -15,7 +15,7 @@ urlpatterns = patterns('',
     url(r'^favorites/$', views.favorites, name='favorites'),
 
     url(r'^welcome/$', views.welcome, name='welcome'),
-    url(r'^about/$', views.about, name='about')
-
+    url(r'^about/$', views.about, name='about'),
+    url(r'^empty/$', views.empty, name='empty')
 
 )

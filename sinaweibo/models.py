@@ -58,7 +58,7 @@ class User(models.Model):
         statuses = Favorite.objects.filter(user=self, is_archived=False, is_destroyed=False).order_by('-fav_time')[start:start+count+1]
         for item in statuses:
             status_dict = json.loads(item.status.raw_content)
-            status_dict['tags'] = json.loads(item.tags)
+            if item.tags: status_dict['tags'] = json.loads(item.tags)
             status_list.append(status_dict)
 
         favlist['favorites'] = status_list

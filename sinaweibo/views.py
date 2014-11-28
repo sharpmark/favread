@@ -45,14 +45,14 @@ def list(request, page_id):
 
     if page_count < page_id:
         return HttpResponseRedirect('/page/%d/' % page_count)
-    if page_id < 1: 
-        return HttpResponseRedirect('/page/1/')
+    if page_id < 1:
+        return HttpResponseRedirect('/empty/')
 
     favlist = u.get_statuses(page_id, count=page_pre_status)
 
     return render(request, 'list.html', {
         'my': u, 'favlist': favlist, 'current_page': page_id,
-        'pages': get_page_list(status_count, page_pre_status, page_id), 
+        'pages': get_page_list(status_count, page_pre_status, page_id),
         'prepage': page_id - 1, 'nextpage': 0 if page_id == page_count else page_id + 1,
          },)
 
@@ -99,6 +99,9 @@ def welcome(request):
 
 def about(request):
     return render(request, 'about.html')
+
+def empty(request):
+    return render(request, 'empty.html')
 
 def callback(request):
 

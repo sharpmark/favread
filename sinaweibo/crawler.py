@@ -58,7 +58,7 @@ def crawl_new_favorites(server, user, total_page, count=50):
         for status in statuses['favorites']:
             if compare_date > str2datetime(status['favorited_time']): return new_count
 
-            print 'saving status: %d' % status['status']['id']
+            #print 'saving status: %d' % status['status']['id']
             new_count = new_count + 1
             user.save_status(status)
 

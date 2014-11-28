@@ -20,7 +20,7 @@ $(document).ready(function() {
                 $('#status-detail').show();
             }
 
-            $('#status-detail').perfectScrollbar({wheelSpeed: 30, suppressScrollX: true});
+            $('#status-detail').perfectScrollbar({wheelSpeed: 50, suppressScrollX: true});
         }
     });
 
@@ -59,3 +59,7 @@ function switch_opt(id) {
     $('#'+id+'-opt').toggle();
     event.stopPropagation();
 };
+
+function edit_tag(id) {
+    //$('#tag-editor').toggle();
+}

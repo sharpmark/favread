@@ -26,7 +26,6 @@
   <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
     <ul class="nav navbar-nav">
       <li class="active"><a href="/">我的收藏</a></li>
-      <li><a href="#">已归档</a></li>
     </ul>
     <ul class="nav navbar-nav navbar-right">
       <li class="dropdown">
@@ -55,12 +54,12 @@
         </div>
         <span class="status-user-name"><a href="http://weibo.com/{{ user.profile_url }}">{{ user.name }}</a></span>
         <span id="{{status.id}}-opt" class="status-operator span-right">
-          <a href="#" onclick="favorites({{ status.id }}, 'archive', '{{ csrf_token }}')">已读</a> | 
-          <a href="#" onclick="switch_opt({{ status.id }})">删除</a>
+          <a href="#" onclick="favorites({{ status.id }}, 'archive', '{{ csrf_token }}')"><span class="glyphicon glyphicon-inbox">已读</a> |
+          <a href="#" onclick="switch_opt({{ status.id }})"><span class="glyphicon glyphicon-trash">删除</span></a>
         </span>
         <span id="{{status.id}}-del" class="status-delete span-right">
-          <a href="#" onclick="favorites({{ status.id }}, 'destroy', '{{ csrf_token }}')">确认</a> | 
-          <a href="#" onclick="switch_opt({{ status.id }})">取消</a>
+          <a href="#" onclick="favorites({{ status.id }}, 'destroy', '{{ csrf_token }}')"><span class="glyphicon glyphicon-ok">确认</span></a> |
+          <a href="#" onclick="switch_opt({{ status.id }})"><span class="glyphicon glyphicon-remove">取消</span></a>
         </span>
       </div>
       <div class="status-text">
@@ -92,8 +91,8 @@
       {% endwith %}{% endif %}
       <div class="status-tail">
         <span class="status-from"><a href="http://weibo.com/{{ user.id }}/{{ status.id|id2url }}" target="_blank">{{ status.created_at|timefmt }}</a><!-- | <span class="glyphicon glyphicon-thumbs-up"></span> ({{ status.attitudes_count }}) | <span class="glyphicon glyphicon-retweet"></span> ({{ status.reposts_count }}) | <span class="glyphicon glyphicon-comment"></span> ({{ status.comments_count }})--></span>
-        <!--span class="span-right tag-item"><a href="#"><span class="glyphicon glyphicon-tags"></span> 编辑</a></span-->
-        <span class="status-handle span-right status-tags">{% for tag in status.tags %} <a class="tag-item" href="#">{{ tag.tag }}</a>{% endfor %}</span>
+        <!--span class="span-right tag-item"><span class="glyphicon glyphicon-tags"></span> 编辑</span-->
+        <span class="status-handle span-right status-tags">{% for tag in status.tags %} <span class="tag-item">{{ tag.tag }}</span>{% endfor %}</span>
       </div>
     </div>
     {% endwith %}
