@@ -1,0 +1,133 @@
+<html lang="zh-cn">
+<head>{% load status_extras %}
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="stylesheet" href="http://cdn.bootcss.com/twitter-bootstrap/3.0.3/css/bootstrap.min.css">
+  <link rel="stylesheet" href="http://cdn.bootcss.com/twitter-bootstrap/3.0.3/css/bootstrap-theme.min.css">
+  <link type="text/css" rel="stylesheet" charset="utf-8" href="/static/styles/perfect-scrollbar-0.4.6.min.css" />
+  <link type="text/css" rel="stylesheet" charset="utf-8" href="/static/styles/main.css" />
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+    <script src="http://cdn.bootcss.com/html5shiv/3.7.0/html5shiv.min.js"></script>
+    <script src="http://cdn.bootcss.com/respond.js/1.3.0/respond.min.js"></script>
+  <![endif]-->
+
+  <title>我的收藏 - FavRead</title>
+</head>
+<body>
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+  <div class="navbar-header">
+    <a class="navbar-brand" href="/">FavRead</a>
+  </div>
+
+  <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+    <ul class="nav navbar-nav">
+      <li><a href="/">我的收藏</a></li>
+      <li class="active"><a href="/archived/page/1/">已归档</a></li>
+    </ul>
+    <ul class="nav navbar-nav navbar-right">
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ my.name }}<b class="caret"></b></a>
+        <ul class="dropdown-menu">
+          <li><a href="http://weibo.com/" target="_blank">我的微博</a></li>
+          <li class="divider"></li>
+          <li><a href="/logout/">退出</a></li>
+        </ul>
+      </li>
+      <li><a href="/about/" target="_blank">关于</a></li>
+    </ul>
+  </div><!-- /.navbar-collapse -->
+</nav>
+<div class="container"><div class="row">
+<div id="status-panel" class="col-md-5">
+  <div id="status-list">
+  {% for status in favlist.favorites %}
+  {% with user=status.user %}
+    <div class="status-item" id="item-{{ status.id }}" sid="{{ status.id }}">
+      <div class="status-info">
+        <div class="status-user-avatar">
+          <a href="http://weibo.com/{{ user.profile_url }}">
+            <img class="img-rounded" title="{{ user.name }}" width="50" height="50" src="{{ user.avatar_large }}" />
+          </a>
+        </div>
+        <span class="status-user-name"><a href="http://weibo.com/{{ user.profile_url }}">{{ user.name }}</a></span>
+        <span id="{{status.id}}-opt" class="status-operator span-right">
+          <!-- a href="#" onclick="favorites({{ status.id }}, 'archive', '{{ csrf_token }}')"><span class="glyphicon glyphicon-inbox">归档</a><|
+          <a href="#" onclick="switch_opt({{ status.id }})"><span class="glyphicon glyphicon-trash">删除</span></a-->
+        </span>
+        <span id="{{status.id}}-del" class="status-delete span-right">
+          <a href="#" onclick="favorites({{ status.id }}, 'destroy', '{{ csrf_token }}')"><span class="glyphicon glyphicon-ok">确认</span></a> |
+          <a href="#" onclick="switch_opt({{ status.id }})"><span class="glyphicon glyphicon-remove">取消</span></a>
+        </span>
+      </div>
+      <div class="status-text">
+        {{ status.text|statusfmt|safe }}
+      </div>
+      {% if status.pic_urls %}
+      <ul class="media-list list-unstyled">
+        {% for pic in status.pic_urls %}
+        <li><img class="img-square" src="{{ pic.thumbnail_pic|imagesquare }}" /></li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+      {% if status.retweeted_status %}{% with rtuser=status.retweeted_status.user rtstatus=status.retweeted_status %}
+      <div class="status-retweeted">
+        <div class="status-text">
+            <span class="status-user-name"><a href="http://weibo.com/{{ rtuser.profile_url }}">{{ rtuser.name }}</a>：</span>{{ rtstatus.text|statusfmt|safe }}
+        </div>
+        {% if rtstatus.pic_urls %}
+        <ul class="media-list list-unstyled">
+          {% for pic in rtstatus.pic_urls %}
+          <li><img class="img-square" src="{{ pic.thumbnail_pic|imagesquare }}" /></li>
+          {% endfor %}
+        </ul>
+        {% endif %}
+        <div class="status-tail">
+          <span class="status-from"><a href="http://weibo.com/{{ rtuser.id }}/{{ rtstatus.id|id2url }}" target="_blank">{{ rtstatus.created_at|timefmt }}</a><!-- | <span class="glyphicon glyphicon-thumbs-up"></span> ({{ rtstatus.attitudes_count }}) | <span class="glyphicon glyphicon-retweet"></span> ({{ rtstatus.reposts_count }}) | <span class="glyphicon glyphicon-comment"></span> ({{ rtstatus.comments_count }})--></span>
+        </div>
+      </div>
+      {% endwith %}{% endif %}
+      <div class="status-tail">
+        <span class="status-from"><a href="http://weibo.com/{{ user.id }}/{{ status.id|id2url }}" target="_blank">{{ status.created_at|timefmt }}</a><!-- | <span class="glyphicon glyphicon-thumbs-up"></span> ({{ status.attitudes_count }}) | <span class="glyphicon glyphicon-retweet"></span> ({{ status.reposts_count }}) | <span class="glyphicon glyphicon-comment"></span> ({{ status.comments_count }})--></span>
+        <!--span class="span-right tag-item"><span class="glyphicon glyphicon-tags"></span> 编辑</span-->
+        <span class="status-handle span-right status-tags">{% for tag in status.tags %} <span class="tag-item">{{ tag.tag }}</span>{% endfor %}</span>
+      </div>
+    </div>
+    {% endwith %}
+    {% endfor %}
+  </div>
+  <div id="pagination">
+    <ul class="pagination">
+      <li>{% if prepage == 0 %}<span class="disabled">&laquo;</span>{% else %}<a href="/page/{{ prepage }}/">&laquo;</a>{% endif %}</li>
+      {% for p in pages %}
+      <li>{% if current_page == p %}<span class="disabled">{{ p }}</span>{% else %}<a href="/page/{{ p }}/">{{ p }}</a>{% endif %}</li>
+      {% endfor %}
+      <li>{% if nextpage == 0 %}<span class="disabled">&raquo;</span>{% else %}<a href="/page/{{ nextpage }}/">&raquo;</a>{% endif %}</li>
+    </ul>
+  </div>
+</div>
+<div id="status-detail" class="col-md-7"></div>
+</div></div>
+
+  <script src="http://cdn.bootcss.com/twitter-bootstrap/3.0.3/js/bootstrap.min.js"></script>
+  <script src="http://cdn.bootcss.com/jquery/1.10.2/jquery.min.js"></script>
+  <script src="/static/js/perfect-scrollbar-0.4.6.with-mousewheel.min.js"></script>
+  <script src="/static/js/jquery.cookie.js"></script>
+  <script src="/static/js/list.js"></script>
+
+</body>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-1267846-20', 'sharpmark.net');
+  ga('send', 'pageview');
+
+</script>
+</html>

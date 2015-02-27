@@ -12,6 +12,37 @@ from sinaweibo.models import User, Status, Favorite
 from sinaweibo.crawler import *
 from sinaweibo.tools import *
 
+
+def archived_empty(request):
+    return render(request, 'archvied-empty.html')
+
+
+def archived(request, page_id):
+
+    u = _check_cookie(request)
+    client = _create_client()
+    if u is None:
+        return HttpResponseRedirect(client.get_authorize_url())
+    client.set_access_token(u.auth_token, u.expired_time)
+
+    page_pre_status = 10                    # 每页显示多少条
+    page_id = int(page_id)                  # 第几页
+    status_count = u.get_statuses_count(is_archived=True)
+    page_count = get_page_count(status_count, page_pre_status)
+
+    if page_count < page_id:
+        return HttpResponseRedirect('/archived/page/%d/' % page_count)
+    if page_id < 1:
+        return HttpResponseRedirect('/archived/empty/')
+
+    favlist = u.get_statuses(page_id, count=page_pre_status, is_archived=True)
+
+    return render(request, 'archvied.html', {
+        'my': u, 'favlist': favlist, 'current_page': page_id,
+        'pages': get_page_list(status_count, page_pre_status, page_id),
+        'prepage': page_id - 1, 'nextpage': 0 if page_id == page_count else page_id + 1,
+         },)
+
 def test(request):
     #return render(request, 'test.html')
     return HttpResponseRedirect('/')

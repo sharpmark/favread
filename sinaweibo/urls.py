@@ -16,6 +16,9 @@ urlpatterns = patterns('',
 
     url(r'^welcome/$', views.welcome, name='welcome'),
     url(r'^about/$', views.about, name='about'),
-    url(r'^empty/$', views.empty, name='empty')
+    url(r'^empty/$', views.empty, name='empty'),
+
+    url(r'^archived/page/(?P<page_id>\d+)/$', views.archived, name='archived'),
+    url(r'^archived/empty/$', views.archived_empty, name='archived_empty')
 
 )

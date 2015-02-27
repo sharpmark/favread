@@ -48,14 +48,14 @@ class User(models.Model):
         return statuses
         # 这里有坑，有的返回的是Status对象列表，有的是json格式
 
-    def get_statuses(self, page=1, count=50):
+    def get_statuses(self, page=1, count=50, is_archived=False, is_destroyed=False):
 
         favlist = {}
         status_list = []
 
         start = (page - 1) * count;
 
-        statuses = Favorite.objects.filter(user=self, is_archived=False, is_destroyed=False).order_by('-fav_time')[start:start+count+1]
+        statuses = Favorite.objects.filter(user=self, is_archived=is_archived, is_destroyed=is_destroyed).order_by('-fav_time')[start:start+count+1]
         for item in statuses:
             status_dict = json.loads(item.status.raw_content)
             if item.tags: status_dict['tags'] = json.loads(item.tags)
@@ -64,15 +64,15 @@ class User(models.Model):
         favlist['favorites'] = status_list
         return favlist
 
-    def get_statuses_count(self):
-        return Favorite.objects.filter(user=self, is_archived=False, is_destroyed=False).count()
+    def get_statuses_count(self, is_archived=False, is_destroyed=False):
+        return Favorite.objects.filter(user=self, is_archived=is_archived, is_destroyed=is_destroyed).count()
 
     def save_status(self, status_dict):
         try:
             status = Status.objects.get(id=status_dict['status']['id'])
         except Status.DoesNotExist:
             status = Status(
-                id=status_dict['status']['id'], 
+                id=status_dict['status']['id'],
                 raw_content=json.dumps(status_dict['status']))
             status.save()
 
@@ -113,4 +113,3 @@ class Favorite(models.Model):
     fav_time = models.DateTimeField()
     is_archived = models.BooleanField(default=False)
     is_destroyed = models.BooleanField(default=False)
-

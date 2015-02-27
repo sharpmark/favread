@@ -26,6 +26,7 @@
   <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
     <ul class="nav navbar-nav">
       <li class="active"><a href="/">我的收藏</a></li>
+      <li><a href="/archived/page/1/">已归档</a></li>
     </ul>
     <ul class="nav navbar-nav navbar-right">
       <li class="dropdown">
@@ -54,8 +55,8 @@
         </div>
         <span class="status-user-name"><a href="http://weibo.com/{{ user.profile_url }}">{{ user.name }}</a></span>
         <span id="{{status.id}}-opt" class="status-operator span-right">
-          <a href="#" onclick="favorites({{ status.id }}, 'archive', '{{ csrf_token }}')"><span class="glyphicon glyphicon-inbox">已读</a> |
-          <a href="#" onclick="switch_opt({{ status.id }})"><span class="glyphicon glyphicon-trash">删除</span></a>
+          <a href="#" onclick="favorites({{ status.id }}, 'archive', '{{ csrf_token }}')"><span class="glyphicon glyphicon-inbox">归档</a><!-- |
+          <a href="#" onclick="switch_opt({{ status.id }})"><span class="glyphicon glyphicon-trash">删除</span></a-->
         </span>
         <span id="{{status.id}}-del" class="status-delete span-right">
           <a href="#" onclick="favorites({{ status.id }}, 'destroy', '{{ csrf_token }}')"><span class="glyphicon glyphicon-ok">确认</span></a> |
@@ -118,4 +119,15 @@
   <script src="/static/js/list.js"></script>
 
 </body>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-1267846-20', 'sharpmark.net');
+  ga('send', 'pageview');
+
+</script>
 </html>
